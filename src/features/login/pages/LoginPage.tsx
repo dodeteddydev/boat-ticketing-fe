@@ -52,18 +52,19 @@ export const LoginPage = () => {
           {/* FORM */}
           <div className="mt-6 flex flex-col">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <InputField
-                {...register("identifier")}
-                label="Username or email"
-                error={errors.identifier?.message}
-              />
-              <div className="mt-3" />
-              <InputField
-                {...register("password")}
-                isPasswordField
-                label="Password"
-                error={errors.password?.message}
-              />
+              <div className="flex flex-col gap-3">
+                <InputField
+                  {...register("identifier")}
+                  label="Username or email"
+                  error={errors.identifier?.message}
+                />
+                <InputField
+                  {...register("password")}
+                  isPasswordField
+                  label="Password"
+                  error={errors.password?.message}
+                />
+              </div>
               <p onClick={() => {}} className="text-sm text-end cursor-pointer">
                 Forgot Password?
               </p>

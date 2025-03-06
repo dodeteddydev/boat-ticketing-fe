@@ -6,9 +6,11 @@ import { PathRoutes } from "../../../routes/pathRoutes";
 import { useForm } from "react-hook-form";
 import { Login, loginSchema } from "../schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLogin } from "../hooks/useLogin";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const login = useLogin();
 
   const {
     register,
@@ -18,7 +20,12 @@ export const LoginPage = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: Login) => console.log(data);
+  const onSubmit = (data: Login) => {
+    login.mutate(data, {
+      onSuccess: (response) => console.log(response),
+      onError: (error) => console.log(error.response?.data),
+    });
+  };
 
   return (
     <main className="flex min-h-screen">
@@ -68,7 +75,12 @@ export const LoginPage = () => {
               <p onClick={() => {}} className="text-sm text-end cursor-pointer">
                 Forgot Password?
               </p>
-              <Button className="mt-3" text="Login" type="submit" />
+              <Button
+                disabled={login.isPending}
+                className="mt-3"
+                text="Login"
+                type="submit"
+              />
             </form>
 
             <p className="text-sm mt-3">

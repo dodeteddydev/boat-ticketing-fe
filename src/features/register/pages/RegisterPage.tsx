@@ -5,9 +5,11 @@ import { InputField } from "../../../components/global/InputField";
 import { Register, registerSchema } from "../schemas/registerSchema";
 import yacht from "../../../assets/yacht.png";
 import { Button } from "../../../components/global/Button";
+import { useRegister } from "../hooks/useRegister";
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
+  const regis = useRegister();
 
   const {
     register,
@@ -17,7 +19,12 @@ export const RegisterPage = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data: Register) => console.log(data);
+  const onSubmit = (data: Register) => {
+    regis.mutate(data, {
+      onSuccess: (response) => console.log(response),
+      onError: (error) => console.log(error.response?.data),
+    });
+  };
 
   return (
     <main className="flex min-h-screen">

@@ -2,16 +2,30 @@ import { ReactNode } from "react";
 import { Navigate, Route, Routes as Router } from "react-router";
 import { BaseLayout } from "../components/BaseLayout";
 import { useGlobalContext } from "../context/useGlobalContext";
+import { useGetProfile } from "../features/dashboard/hooks/useGetProfile";
 import { LoginPage } from "../features/login/pages/LoginPage";
 import { RegisterPage } from "../features/register/pages/RegisterPage";
+import { LocalStorageHelpers } from "../utilities/localStorageHelpers";
 import { PageRoutes } from "./PageRoutes";
 import { PathRoutes } from "./pathRoutes";
+import processing from "../assets/processing.png";
 
 export const Routes = () => {
-  const { userStatus } = useGlobalContext();
+  const { userStatus, setUserAuthority } = useGlobalContext();
   const protectedRoutes = PageRoutes.filter(
     (route) => route.routeType === "protected"
   );
+  const { isLoading, isError, error } = useGetProfile(
+    Boolean(LocalStorageHelpers.getAccessToken())
+  );
+
+  if (isLoading)
+    return (
+      <div className="h-screen flex flex-col items-center justify-center">
+        <img className="h-80 w-80" src={processing} alt="processing" />
+        <p className="text-3xl font-semibold">Loading...</p>
+      </div>
+    );
 
   return (
     <Router>
@@ -42,13 +56,17 @@ export const Routes = () => {
             key={`${route.path}${index}`}
             path={route.path}
             element={
-              <BaseLayout
+              <AuthorizedPage
+                type="protected"
+                isAuthorized={userStatus === "authorized"}
                 children={
-                  <AuthorizedPage
-                    type="protected"
-                    isAuthorized={userStatus === "authorized"}
-                    children={route.element}
-                  />
+                  <BaseLayout
+                    isError={isError}
+                    error={error}
+                    logout={() => setUserAuthority("unauthorized")}
+                  >
+                    {route.element}
+                  </BaseLayout>
                 }
               />
             }

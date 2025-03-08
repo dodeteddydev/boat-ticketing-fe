@@ -1,13 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { InputField } from "../../../components/global/InputField";
-import { Register, registerSchema } from "../schemas/registerSchema";
+import { toast, ToastContainer } from "react-toastify";
 import yacht from "../../../assets/yacht.png";
 import { Button } from "../../../components/global/Button";
+import { InputField } from "../../../components/global/InputField";
+import { useRegister } from "../hooks/useRegister";
+import { Register, registerSchema } from "../schemas/registerSchema";
+import { PathRoutes } from "../../../routes/pathRoutes";
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
+  const regis = useRegister();
 
   const {
     register,
@@ -17,7 +21,23 @@ export const RegisterPage = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data: Register) => console.log(data);
+  const notify = (text: string, type: "success" | "error") => {
+    if (type === "success") {
+      setTimeout(() => navigate(PathRoutes.login, { replace: true }), 1000);
+      toast.success(text);
+      return;
+    }
+
+    toast.error(text);
+  };
+
+  const onSubmit = (data: Register) => {
+    regis.mutate(data, {
+      onSuccess: (response) => notify(response.message, "success"),
+      onError: (error) =>
+        notify(error?.response?.data.errors as string, "error"),
+    });
+  };
 
   return (
     <main className="flex min-h-screen">
@@ -89,6 +109,8 @@ export const RegisterPage = () => {
           </div>
         </div>
       </section>
+
+      <ToastContainer position="bottom-right" autoClose={1000} />
     </main>
   );
 };

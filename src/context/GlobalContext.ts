@@ -2,7 +2,11 @@ import { createContext } from "react";
 
 type GlobalContextType = {
   userStatus: "authorized" | "unauthorized";
-  setUserStatus: (status: "authorized" | "unauthorized") => void;
+  setUserAuthority: (
+    status: "authorized" | "unauthorized",
+    access?: string,
+    refresh?: string
+  ) => void;
 };
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(

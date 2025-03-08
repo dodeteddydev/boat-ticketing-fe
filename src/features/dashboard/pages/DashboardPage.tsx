@@ -1,13 +1,17 @@
+import { Button } from "../../../components/global/Button";
+import { useGlobalContext } from "../../../context/useGlobalContext";
+
 export const DashboardPage = () => {
+  const { setUserAuthority } = useGlobalContext();
+
   return (
-    <div>
+    <div className="h-full flex flex-col justify-center items-center">
       <p>DashboardPage</p>
-      <button
-        className="bg-purple-500"
-        onClick={() => localStorage.removeItem("token")}
-      >
-        REMOVE TOKEN
-      </button>
+      <Button
+        className="w-24"
+        text="Logout"
+        onClick={() => setUserAuthority("unauthorized")}
+      />
     </div>
   );
 };

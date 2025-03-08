@@ -1,7 +1,12 @@
 export class LocalStorageHelpers {
   static setToken(access: string, refresh: string) {
-    if (access) localStorage.setItem("accessToken", access);
-    if (refresh) localStorage.setItem("refreshToken", refresh);
+    localStorage.setItem("accessToken", access);
+    localStorage.setItem("refreshToken", refresh);
+  }
+
+  static removeToken() {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   }
 
   static getAccessToken() {

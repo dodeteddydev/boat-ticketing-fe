@@ -11,7 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useGlobalContext } from "../../../context/useGlobalContext";
 
 export const LoginPage = () => {
-  const { setUserStatus } = useGlobalContext();
+  const { setUserAuthority } = useGlobalContext();
   const navigate = useNavigate();
   const login = useLogin();
 
@@ -25,7 +25,6 @@ export const LoginPage = () => {
 
   const notify = (text: string, type: "success" | "error") => {
     if (type === "success") {
-      setTimeout(() => setUserStatus("authorized"), 1000);
       toast.success(text);
       return;
     }
@@ -35,7 +34,18 @@ export const LoginPage = () => {
 
   const onSubmit = (data: Login) => {
     login.mutate(data, {
-      onSuccess: (response) => notify(response.message, "success"),
+      onSuccess: (response) => {
+        setTimeout(
+          () =>
+            setUserAuthority(
+              "authorized",
+              response.data.accessToken,
+              response.data.refreshToken
+            ),
+          1000
+        );
+        notify(response.message, "success");
+      },
       onError: (error) =>
         notify(error?.response?.data.errors as string, "error"),
     });

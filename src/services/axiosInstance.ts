@@ -1,5 +1,7 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { LocalStorageHelpers } from "../utilities/localStorageHelpers";
+import { RefreshResponse } from "../types/refreshResponse";
+import { SuccessResponse } from "../types/successResponse";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -25,13 +27,31 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      // axios.get()
+  async (error: AxiosError) => {
+    const refreshToken = LocalStorageHelpers.getRefreshToken();
 
-      console.log(error);
+    if (refreshToken && error.response?.status === 401) {
+      try {
+        const { data } = await axios.post<SuccessResponse<RefreshResponse>>(
+          `${baseUrl}/auth/refresh`,
+          { refreshToken }
+        );
+
+        LocalStorageHelpers.setToken(
+          data.data.accessToken,
+          data.data.refreshToken
+        );
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        LocalStorageHelpers.removeToken();
+      }
     }
 
-    return Promise.reject(error);
+    if (!refreshToken) {
+      LocalStorageHelpers.removeToken();
+      return Promise.reject<AxiosError>(error);
+    }
+
+    return Promise.reject<AxiosError>(error);
   }
 );

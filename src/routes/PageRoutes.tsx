@@ -17,7 +17,7 @@ export const PageRoutes: PageRoutesType[] = [
     routeType: "unprotected",
   },
   {
-    path: PathRoutes.register,
+    path: PathRoutes.signUp,
     element: <RegisterPage />,
     routeType: "unprotected",
   },

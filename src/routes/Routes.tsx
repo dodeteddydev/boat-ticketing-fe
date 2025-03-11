@@ -40,7 +40,7 @@ export const Routes = () => {
         }
       />
       <Route
-        path={PathRoutes.register}
+        path={PathRoutes.signUp}
         element={
           <AuthorizedPage
             type="unprotected"

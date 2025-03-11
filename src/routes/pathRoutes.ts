@@ -1,5 +1,5 @@
 export class PathRoutes {
   static login = "/login";
-  static register = "/register";
+  static signUp = "/sign-up";
   static dashboard = "/";
 }

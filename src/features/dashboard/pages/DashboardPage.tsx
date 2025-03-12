@@ -1,17 +1,11 @@
-import { Button } from "../../../components/global/Button";
-import { useGlobalContext } from "../../../context/useGlobalContext";
-
 export const DashboardPage = () => {
-  const { setUserAuthority } = useGlobalContext();
-
   return (
-    <div className="h-full flex flex-col justify-center items-center">
-      <p>DashboardPage</p>
-      <Button
-        className="w-24"
-        text="Logout"
-        onClick={() => setUserAuthority("unauthorized")}
-      />
-    </div>
+    <section className="h-full flex flex-col">
+      <h1 className="font-semibold text-2xl">Dashboard</h1>
+
+      <section className="flex-1 flex items-center justify-center">
+        <p className="font-bold">UNDER MAINTENANCE</p>
+      </section>
+    </section>
   );
 };

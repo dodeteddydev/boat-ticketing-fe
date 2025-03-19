@@ -15,7 +15,7 @@ export const Routes = () => {
   const protectedRoutes = PageRoutes.filter(
     (route) => route.routeType === "protected"
   );
-  const { isLoading, isError, error } = useGetProfile(
+  const { isLoading, isError } = useGetProfile(
     Boolean(LocalStorageHelpers.getAccessToken())
   );
 
@@ -62,7 +62,6 @@ export const Routes = () => {
                 children={
                   <BaseLayout
                     isError={isError}
-                    error={error}
                     logout={() => setUserAuthority("unauthorized")}
                   >
                     {route.element}

@@ -41,15 +41,10 @@ axiosInstance.interceptors.response.use(
           data.data.accessToken,
           data.data.refreshToken
         );
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
-        LocalStorageHelpers.removeToken();
+        const axiosError = err as AxiosError;
+        return Promise.reject<AxiosError>(axiosError);
       }
-    }
-
-    if (!refreshToken) {
-      LocalStorageHelpers.removeToken();
-      return Promise.reject<AxiosError>(error);
     }
 
     return Promise.reject<AxiosError>(error);

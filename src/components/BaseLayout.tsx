@@ -1,4 +1,4 @@
-import { UserCircle } from "lucide-react";
+import { Menu, UserCircle } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useGlobalContext } from "../context/useGlobalContext";
 import { Button } from "./global/Button";
@@ -27,9 +27,9 @@ export const BaseLayout = ({ children, isError, logout }: BaseLayoutProps) => {
 
   return (
     <div className="relative h-screen">
-      <div className="flex flex-row">
+      <div className="flex flex-row max-custom:flex-col max-custom:h-screen">
         {/* LEFT SECTION */}
-        <section className="bg-white shadow-xl border border-gray-200 min-w-80 rounded-e-3xl h-screen flex flex-col p-4">
+        <section className="bg-white shadow-xl border border-gray-200 rounded-e-3xl h-screen hidden custom:flex flex-col p-4">
           <h1 className="text-3xl font-semibold text-center">
             Boat Ticketing <span className="text-xs font-normal">v.1.0.0</span>
           </h1>
@@ -43,8 +43,18 @@ export const BaseLayout = ({ children, isError, logout }: BaseLayoutProps) => {
           </footer>
         </section>
 
+        {/* SECTION SHOW WHEN MOBILE LAYOUT */}
+        <section className="custom:hidden flex flex-row justify-between">
+          <MobileSidebar />
+          <ProfileDropdown
+            isOnTop
+            profileClick={() => {}}
+            logoutClick={() => setUserAuthority("unauthorized")}
+          />
+        </section>
+
         {/* RIGHT SECTION */}
-        <section className="flex-1 flex flex-col p-4">
+        <section className="flex-1 flex flex-col px-4 md:p-4">
           <div className="flex-1">{children}</div>
         </section>
       </div>
@@ -62,7 +72,9 @@ export const BaseLayout = ({ children, isError, logout }: BaseLayoutProps) => {
 export const ProfileDropdown = ({
   profileClick,
   logoutClick,
+  isOnTop,
 }: {
+  isOnTop?: boolean;
   profileClick: () => void;
   logoutClick: () => void;
 }) => {
@@ -87,7 +99,9 @@ export const ProfileDropdown = ({
       {isOpen && (
         <div
           onMouseLeave={() => setIsOpen(false)}
-          className="absolute bottom-7 mt-2 w-40 bg-white border border-gray-300 rounded-md shadow-lg"
+          className={`absolute mt-2 w-40 bg-white border border-gray-300 rounded-md shadow-lg ${
+            isOnTop ? "top-10 right-2" : "bottom-7"
+          }`}
         >
           <ul className="py-2">
             <li
@@ -107,7 +121,49 @@ export const ProfileDropdown = ({
       )}
 
       <UserCircle
-        className="cursor-pointer"
+        className={`cursor-pointer ${isOnTop && "m-4"}`}
+        onMouseEnter={() => setIsOpen(true)}
+      />
+    </div>
+  );
+};
+
+export const MobileSidebar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative self-center mb-4" ref={sidebarRef}>
+      {isOpen && (
+        <div
+          onMouseLeave={() => setIsOpen(false)}
+          className="absolute bg-white shadow-xl border border-gray-200 rounded-e-3xl flex flex-col flex-1 h-screen p-4"
+        >
+          <h1 className="font-semibold text-center">
+            Boat Ticketing <span className="text-xs font-normal">v.1.0.0</span>
+          </h1>
+          <Sidebar />
+          <footer className="text-xs text-center mt-auto">
+            &copy; {new Date().getFullYear()} dodeteddydev All rights reserved.
+          </footer>
+        </div>
+      )}
+
+      <Menu
+        className="cursor-pointer m-4"
         onMouseEnter={() => setIsOpen(true)}
       />
     </div>

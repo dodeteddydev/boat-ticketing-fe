@@ -3,6 +3,7 @@ import { PathRoutes } from "./pathRoutes";
 import { LoginPage } from "../features/login/pages/LoginPage";
 import { RegisterPage } from "../features/register/pages/RegisterPage";
 import { DashboardPage } from "../features/dashboard/pages/DashboardPage";
+import { CountryPage } from "../features/country/pages/CountryPage";
 
 type PageRoutesType = {
   path: string;
@@ -24,6 +25,11 @@ export const PageRoutes: PageRoutesType[] = [
   {
     path: PathRoutes.dashboard,
     element: <DashboardPage />,
+    routeType: "protected",
+  },
+  {
+    path: PathRoutes.country,
+    element: <CountryPage />,
     routeType: "protected",
   },
 ];

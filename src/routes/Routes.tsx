@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Navigate, Route, Routes as Router } from "react-router";
 import { BaseLayout } from "../components/BaseLayout";
 import { useGlobalContext } from "../context/useGlobalContext";
@@ -9,15 +9,19 @@ import { LocalStorageHelpers } from "../utilities/localStorageHelpers";
 import { PageRoutes } from "./PageRoutes";
 import { PathRoutes } from "./pathRoutes";
 import processing from "../assets/processing.png";
+import { Role } from "../enums/accessed";
 
 export const Routes = () => {
-  const { userStatus, setUserAuthority } = useGlobalContext();
+  const { userStatus, setUserAuthority, setRole } = useGlobalContext();
   const protectedRoutes = PageRoutes.filter(
     (route) => route.routeType === "protected"
   );
-  const { isLoading, isError } = useGetProfile(
+  const { data, isLoading, isError } = useGetProfile(
     Boolean(LocalStorageHelpers.getAccessToken())
   );
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => setRole(data?.data.role as Role), [data]);
 
   if (isLoading)
     return (

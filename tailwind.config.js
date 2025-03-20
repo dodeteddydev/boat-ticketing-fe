@@ -7,6 +7,9 @@ export default {
         primary: "#63C1FF",
         secondary: "#FF9F63",
       },
+      screens: {
+        custom: "820px",
+      },
     },
   },
   plugins: [],

@@ -1,11 +1,11 @@
 import { axiosInstance } from "../../../services/axiosInstance";
 import { SuccessResponse } from "../../../types/successResponse";
-import { ProfileResponseType } from "../types/profileResponseType";
+import { ProfileResponse } from "../types/profileResponse";
 
 export class DashboardService {
   static async getProfile() {
     return axiosInstance
-      .get<SuccessResponse<ProfileResponseType>>("/user/profile")
+      .get<SuccessResponse<ProfileResponse>>("/user/profile")
       .then((response) => response.data);
   }
 }

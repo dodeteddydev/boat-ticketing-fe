@@ -1,4 +1,4 @@
-export type ProfileResponseType = {
+export type ProfileResponse = {
   id: number;
   role: string;
   name: string;

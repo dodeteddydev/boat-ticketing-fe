@@ -150,7 +150,7 @@ export const MobileSidebar = () => {
       {isOpen && (
         <div
           onMouseLeave={() => setIsOpen(false)}
-          className="absolute bg-white shadow-xl border border-gray-200 rounded-e-3xl flex flex-col flex-1 h-screen p-4"
+          className="absolute bg-white shadow-xl border w-72 border-gray-200 rounded-e-3xl flex flex-col flex-1 h-screen p-4"
         >
           <h1 className="font-semibold text-center">
             Boat Ticketing <span className="text-xs font-normal">v.1.0.0</span>

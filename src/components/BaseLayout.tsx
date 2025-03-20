@@ -95,7 +95,7 @@ export const ProfileDropdown = ({
   }, []);
 
   return (
-    <div className="relative self-center mb-4" ref={dropdownRef}>
+    <div className="relative self-center mb-4 z-30" ref={dropdownRef}>
       {isOpen && (
         <div
           onMouseLeave={() => setIsOpen(false)}
@@ -146,7 +146,7 @@ export const MobileSidebar = () => {
   }, []);
 
   return (
-    <div className="relative self-center mb-4" ref={sidebarRef}>
+    <div className="relative self-center mb-4 z-30" ref={sidebarRef}>
       {isOpen && (
         <div
           onMouseLeave={() => setIsOpen(false)}

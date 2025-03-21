@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type PaginationProps = {
+  page: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 };
 
 export const Pagination = ({
-  totalPages = 1,
+  page,
+  totalPages,
   onPageChange,
 }: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -27,6 +29,8 @@ export const Pagination = ({
       (_, i) => startPage + i
     );
   };
+
+  useEffect(() => setCurrentPage(page), [page]);
 
   return (
     <div className="flex items-center gap-3">

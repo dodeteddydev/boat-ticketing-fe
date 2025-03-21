@@ -55,7 +55,7 @@ export const BaseLayout = ({ children, isError, logout }: BaseLayoutProps) => {
 
         {/* RIGHT SECTION */}
         <section className="flex-1 flex flex-col px-4 md:p-4">
-          <div className="flex-1">{children}</div>
+          <>{children}</>
         </section>
       </div>
 

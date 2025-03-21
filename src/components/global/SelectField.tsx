@@ -1,13 +1,17 @@
 import Select, { Props as SelectProps } from "react-select";
 
-type SelectFieldProps = {
+export type SelectFieldProps<T = unknown> = {
   label?: string;
   error?: string;
-} & SelectProps;
+} & SelectProps<T, false>;
 
-export const SelectField = ({ label, error, ...props }: SelectFieldProps) => {
+export const SelectField = <T,>({
+  label,
+  error,
+  ...props
+}: SelectFieldProps<T>) => {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col">
       {label && (
         <label
           htmlFor={label?.toLowerCase()}
@@ -17,29 +21,27 @@ export const SelectField = ({ label, error, ...props }: SelectFieldProps) => {
         </label>
       )}
 
-      <div className="relative w-full">
-        <Select
-          {...props}
-          inputId={label?.toLowerCase()}
-          theme={(theme) => ({
-            ...theme,
-            borderRadius: 8,
-            colors: {
-              ...theme.colors,
-              primary: error ? "#EF4444" : "#63C1FF",
-            },
-          })}
-          styles={{
-            control: (baseStyles) => ({
-              ...baseStyles,
+      <Select<T, false>
+        {...props}
+        inputId={label?.toLowerCase()}
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 8,
+          colors: {
+            ...theme.colors,
+            primary: error ? "#EF4444" : "#63C1FF",
+          },
+        })}
+        styles={{
+          control: (baseStyles) => ({
+            ...baseStyles,
+            borderColor: error && "#EF4444",
+            "&:hover": {
               borderColor: error && "#EF4444",
-              "&:hover": {
-                borderColor: error && "#EF4444",
-              },
-            }),
-          }}
-        />
-      </div>
+            },
+          }),
+        }}
+      />
 
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>

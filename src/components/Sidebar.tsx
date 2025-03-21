@@ -1,12 +1,10 @@
 import { Flag, LayoutDashboard } from "lucide-react";
 import { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useGlobalContext } from "../context/useGlobalContext";
 import { Role } from "../enums/accessed";
 import { PathRoutes } from "../routes/pathRoutes";
 
-export const Sidebar = () => {
-  const { role } = useGlobalContext();
+export const Sidebar = ({ role }: { role: Role }) => {
   const location = useLocation();
   const navigate = useNavigate();
 

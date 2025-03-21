@@ -4,14 +4,15 @@ import { useGlobalContext } from "../context/useGlobalContext";
 import { Button } from "./global/Button";
 import { Dialog } from "./global/Dialog";
 import { Sidebar } from "./Sidebar";
+import { Role } from "../enums/accessed";
 
 type BaseLayoutProps = {
   children: ReactNode;
   isError: boolean;
-  logout: () => void;
+  role: Role;
 };
 
-export const BaseLayout = ({ children, isError, logout }: BaseLayoutProps) => {
+export const BaseLayout = ({ children, isError, role }: BaseLayoutProps) => {
   const { setUserAuthority } = useGlobalContext();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const openDialog = () => {
@@ -19,11 +20,10 @@ export const BaseLayout = ({ children, isError, logout }: BaseLayoutProps) => {
   };
 
   useEffect(() => {
-    if (isError) {
+    if (isError || role === Role.customer) {
       openDialog();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [role, isError]);
 
   return (
     <div className="relative h-screen">
@@ -33,7 +33,7 @@ export const BaseLayout = ({ children, isError, logout }: BaseLayoutProps) => {
           <h1 className="text-3xl font-semibold text-center">
             Boat Ticketing <span className="text-xs font-normal">v.1.0.0</span>
           </h1>
-          <Sidebar />
+          <Sidebar role={role} />
           <ProfileDropdown
             profileClick={() => {}}
             logoutClick={() => setUserAuthority("unauthorized")}
@@ -45,7 +45,7 @@ export const BaseLayout = ({ children, isError, logout }: BaseLayoutProps) => {
 
         {/* SECTION SHOW WHEN MOBILE LAYOUT */}
         <section className="custom:hidden flex flex-row justify-between">
-          <MobileSidebar />
+          <MobileSidebar role={role} />
           <ProfileDropdown
             isOnTop
             profileClick={() => {}}
@@ -61,10 +61,26 @@ export const BaseLayout = ({ children, isError, logout }: BaseLayoutProps) => {
 
       <Dialog
         ref={dialogRef}
-        title="Session Expired"
-        body={<p>Your session has expired. Please log in again to continue.</p>}
-        footer={<Button text="Logout" onClick={logout} />}
-      />
+        title={isError ? "Session Expired" : "Access Denied"}
+      >
+        <p className="p-4 border-y">
+          {isError
+            ? "Your session has expired. Please log in again to continue."
+            : `${
+                role?.charAt(0).toUpperCase() + role?.slice(1)
+              } can't access this app.`}
+        </p>
+
+        <div className="p-2">
+          <Button
+            text="Logout"
+            onClick={() => {
+              setUserAuthority("unauthorized");
+              window.location.reload();
+            }}
+          />
+        </div>
+      </Dialog>
     </div>
   );
 };
@@ -128,7 +144,7 @@ export const ProfileDropdown = ({
   );
 };
 
-export const MobileSidebar = () => {
+export const MobileSidebar = ({ role }: { role: Role }) => {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
@@ -155,7 +171,7 @@ export const MobileSidebar = () => {
           <h1 className="font-semibold text-center">
             Boat Ticketing <span className="text-xs font-normal">v.1.0.0</span>
           </h1>
-          <Sidebar />
+          <Sidebar role={role} />
           <footer className="text-xs text-center mt-auto">
             &copy; {new Date().getFullYear()} dodeteddydev All rights reserved.
           </footer>

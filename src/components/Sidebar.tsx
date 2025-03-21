@@ -21,7 +21,7 @@ export const Sidebar = ({ role }: { role: Role }) => {
             className={`flex gap-4 py-2 px-4 my-1 rounded-xl items-center cursor-pointer hover:bg-primary hover:text-white ${
               location.pathname === val.path && "bg-primary text-white"
             }`}
-            onClick={() => navigate(val.path)}
+            onClick={() => location.pathname !== val.path && navigate(val.path)}
           >
             {val.icon}
             <p>{val.menu}</p>

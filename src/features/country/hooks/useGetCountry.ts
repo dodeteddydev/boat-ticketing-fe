@@ -4,14 +4,15 @@ import { AxiosError } from "axios";
 import { ErrorResponse } from "../../../types/errorResponse";
 import { CountryResponse } from "../types/countryResponse";
 import { CountryService } from "../services/countryService";
+import { ListParams } from "../../../types/listParams";
 
-export const useGetCountry = (enabled = true) => {
+export const useGetCountry = (enabled = true, params?: ListParams) => {
   return useQuery<
     SuccessListResponse<CountryResponse[]>,
     AxiosError<ErrorResponse>
   >({
-    queryKey: ["country"],
-    queryFn: () => CountryService.get(),
+    queryKey: ["country", params],
+    queryFn: () => CountryService.get(params),
     enabled,
   });
 };

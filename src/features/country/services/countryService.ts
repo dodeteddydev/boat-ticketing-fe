@@ -1,5 +1,6 @@
 import { axiosInstance } from "../../../services/axiosInstance";
 import { ActiveRequest } from "../../../types/activeRequest";
+import { ListParams } from "../../../types/listParams";
 import { SuccessListResponse } from "../../../types/successListResponse";
 import { SuccessResponse } from "../../../types/successResponse";
 import { CountryResponse } from "../types/countryResponse";
@@ -29,9 +30,9 @@ export class CountryService {
       .then((response) => response.data);
   }
 
-  static async get() {
+  static async get(params?: ListParams) {
     return axiosInstance
-      .get<SuccessListResponse<CountryResponse[]>>("/country")
+      .get<SuccessListResponse<CountryResponse[]>>("/country", { params })
       .then((response) => response.data);
   }
 }

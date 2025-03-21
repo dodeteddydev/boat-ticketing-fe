@@ -26,7 +26,7 @@ export const InputField = ({
         </label>
       )}
 
-      <div className="relative w-full ">
+      <div className="relative w-full">
         <input
           {...props}
           type={isPasswordField && !showPassword ? "password" : ""}

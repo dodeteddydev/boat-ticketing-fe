@@ -1,7 +1,6 @@
 import { ReactNode, useState } from "react";
-import { GlobalContext } from "./GlobalContext";
 import { LocalStorageHelpers } from "../utilities/localStorageHelpers";
-import { Role } from "../enums/accessed";
+import { GlobalContext } from "./GlobalContext";
 
 export const GlobalContextProvider = ({
   children,
@@ -28,12 +27,8 @@ export const GlobalContextProvider = ({
     LocalStorageHelpers.removeToken();
   };
 
-  const [role, setRole] = useState<Role>();
-
   return (
-    <GlobalContext.Provider
-      value={{ userStatus, setUserAuthority, role, setRole }}
-    >
+    <GlobalContext.Provider value={{ userStatus, setUserAuthority }}>
       {children}
     </GlobalContext.Provider>
   );

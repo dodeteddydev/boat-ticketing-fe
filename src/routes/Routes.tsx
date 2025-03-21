@@ -1,27 +1,24 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { Navigate, Route, Routes as Router } from "react-router";
+import processing from "../assets/processing.png";
 import { BaseLayout } from "../components/BaseLayout";
 import { useGlobalContext } from "../context/useGlobalContext";
+import { Role } from "../enums/accessed";
 import { useGetProfile } from "../features/dashboard/hooks/useGetProfile";
 import { LoginPage } from "../features/login/pages/LoginPage";
 import { RegisterPage } from "../features/register/pages/RegisterPage";
 import { LocalStorageHelpers } from "../utilities/localStorageHelpers";
 import { PageRoutes } from "./PageRoutes";
 import { PathRoutes } from "./pathRoutes";
-import processing from "../assets/processing.png";
-import { Role } from "../enums/accessed";
 
 export const Routes = () => {
-  const { userStatus, setUserAuthority, setRole } = useGlobalContext();
+  const { userStatus } = useGlobalContext();
   const protectedRoutes = PageRoutes.filter(
     (route) => route.routeType === "protected"
   );
   const { data, isLoading, isError } = useGetProfile(
     Boolean(LocalStorageHelpers.getAccessToken())
   );
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setRole(data?.data.role as Role), [data]);
 
   if (isLoading)
     return (
@@ -64,10 +61,7 @@ export const Routes = () => {
                 type="protected"
                 isAuthorized={userStatus === "authorized"}
                 children={
-                  <BaseLayout
-                    isError={isError}
-                    logout={() => setUserAuthority("unauthorized")}
-                  >
+                  <BaseLayout isError={isError} role={data?.data.role as Role}>
                     {route.element}
                   </BaseLayout>
                 }

@@ -1,8 +1,19 @@
-import { ReactNode, TdHTMLAttributes, ThHTMLAttributes } from "react";
+import {
+  ReactNode,
+  TableHTMLAttributes,
+  TdHTMLAttributes,
+  ThHTMLAttributes,
+} from "react";
 
-export const Table = ({ children }: { children: ReactNode }) => {
+export const Table = ({
+  children,
+  ...props
+}: { children: ReactNode } & TableHTMLAttributes<HTMLTableElement>) => {
   return (
-    <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
+    <table
+      {...props}
+      className={`min-w-full bg-white border border-gray-200 shadow-md rounded-lg ${props.className}`}
+    >
       <>{children}</>
     </table>
   );
@@ -20,9 +31,9 @@ export const THead = ({ children }: { children: ReactNode }) => {
 
 export const TBody = ({ children }: { children: ReactNode }) => {
   return (
-    <thead>
+    <tbody>
       <>{children}</>
-    </thead>
+    </tbody>
   );
 };
 

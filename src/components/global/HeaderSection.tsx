@@ -3,11 +3,13 @@ import { InputField } from "./InputField";
 import { Button } from "./Button";
 
 type HeaderSectionProps = {
+  searchValue?: string;
   onChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void;
   onCreate: () => void;
 };
 
 export const HeaderSection = ({
+  searchValue = "",
   onChangeSearch,
   onCreate,
 }: HeaderSectionProps) => {
@@ -16,6 +18,7 @@ export const HeaderSection = ({
       <InputField
         className="sm:w-52"
         placeholder="Search..."
+        value={searchValue}
         onChange={onChangeSearch}
       />
       <Button className="sm:w-52" text="Create" onClick={onCreate} />

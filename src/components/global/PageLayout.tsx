@@ -17,7 +17,7 @@ export const PageLayout = ({
 }: PageLayoutProps) => {
   if (isLoading)
     return (
-      <div className="h-full flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center">
         <img className="h-80 w-80" src={processing} alt="processing" />
         <p className="text-3xl font-semibold">Loading...</p>
       </div>
@@ -25,15 +25,15 @@ export const PageLayout = ({
 
   if (isError)
     return (
-      <div className="h-full flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center">
         <img className="h-80 w-80" src={errorImage} alt="processing" />
         <p className="text-3xl font-semibold">{errorStatus}</p>
       </div>
     );
 
   return (
-    <section className="h-full flex flex-col">
+    <div className="flex-1 flex flex-col">
       <>{children}</>
-    </section>
+    </div>
   );
 };

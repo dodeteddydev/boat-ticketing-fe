@@ -6,7 +6,7 @@ export const CountryTable = ({ data }: { data: CountryResponse[] }) => {
   const emptyData = data?.length < 1;
 
   return (
-    <div className="h-[60%] mt-5 overflow-scroll">
+    <div className="max-h-[750px] my-5 overflow-scroll">
       <Table>
         <THead>
           <Th>No</Th>
@@ -23,6 +23,136 @@ export const CountryTable = ({ data }: { data: CountryResponse[] }) => {
             </tr>
           ) : (
             <>
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
+              {data?.map((value, index) => (
+                <tr
+                  key={`${value.countryCode}${index}`}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{value?.countryName}</Td>
+                  <Td>{value?.countryCode}</Td>
+                  <Td className="ps-3">
+                    <ActionButtonGroup />
+                  </Td>
+                </tr>
+              ))}
               {data?.map((value, index) => (
                 <tr
                   key={`${value.countryCode}${index}`}

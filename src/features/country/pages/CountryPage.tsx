@@ -43,14 +43,14 @@ export const CountryPage = () => {
         isLoading={isLoading}
         isError={isError}
         errorStatus={error?.response?.status}
-        data={data?.data ?? []}
+        data={data}
       />
 
       {data?.data && data.data.length > 0 && (
         <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
           <PageSizeDropdown
             value={{ label: `${params.size}`, value: params.size! }}
-            onChange={(data) => setParams({ size: data?.value })}
+            onChange={(data) => setParams({ size: data?.value, page: 1 })}
           />
 
           <Pagination

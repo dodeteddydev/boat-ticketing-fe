@@ -4,7 +4,7 @@ export type SuccessListResponse<T> = {
   paging: Paging;
 };
 
-type Paging = {
+export type Paging = {
   currentPage: number;
   totalPage: number;
   size: number;

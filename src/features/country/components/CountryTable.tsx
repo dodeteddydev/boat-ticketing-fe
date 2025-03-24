@@ -14,6 +14,9 @@ type CountryTableProps = {
   isError?: boolean;
   errorStatus?: number;
   data: SuccessListResponse<CountryResponse[]> | undefined;
+  onClickDetail?: () => void;
+  onClickUpdate?: () => void;
+  onClickDelete?: () => void;
 };
 
 export const CountryTable = ({
@@ -21,6 +24,9 @@ export const CountryTable = ({
   isLoading,
   isError,
   errorStatus,
+  onClickDetail,
+  onClickUpdate,
+  onClickDelete,
 }: CountryTableProps) => {
   const dataList: CountryResponse[] = data?.data ?? [];
   const dataPaging: Paging = data?.paging ?? {
@@ -70,7 +76,11 @@ export const CountryTable = ({
                   <Td>{value.countryName}</Td>
                   <Td>{value.countryCode}</Td>
                   <Td className="ps-3">
-                    <ActionButtonGroup />
+                    <ActionButtonGroup
+                      onClickDetail={onClickDetail}
+                      onClickUpdate={onClickUpdate}
+                      onClickDelete={onClickDelete}
+                    />
                   </Td>
                 </tr>
               ))}

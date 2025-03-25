@@ -1,22 +1,22 @@
+import notFound from "../../../assets/data-not-found.png";
+import error from "../../../assets/error.png";
+import processing from "../../../assets/processing.png";
 import { ActionButtonGroup } from "../../../components/global/ActionButtonGroup";
 import { Table, TBody, Td, Th, THead } from "../../../components/global/Table";
-import { CountryResponse } from "../types/countryResponse";
-import processing from "../../../assets/processing.png";
-import error from "../../../assets/error.png";
-import notFound from "../../../assets/data-not-found.png";
 import {
   Paging,
   SuccessListResponse,
 } from "../../../types/successListResponse";
+import { CountryResponse } from "../types/countryResponse";
 
 type CountryTableProps = {
   isLoading?: boolean;
   isError?: boolean;
   errorStatus?: number;
   data: SuccessListResponse<CountryResponse[]> | undefined;
-  onClickDetail?: () => void;
-  onClickUpdate?: () => void;
-  onClickDelete?: () => void;
+  onClickDetail?: (data: CountryResponse) => void;
+  onClickUpdate?: (data: CountryResponse & { id: number }) => void;
+  onClickDelete?: (data: CountryResponse) => void;
 };
 
 export const CountryTable = ({
@@ -77,9 +77,15 @@ export const CountryTable = ({
                   <Td>{value.countryCode}</Td>
                   <Td className="ps-3">
                     <ActionButtonGroup
-                      onClickDetail={onClickDetail}
-                      onClickUpdate={onClickUpdate}
-                      onClickDelete={onClickDelete}
+                      onClickDetail={() =>
+                        onClickDetail && onClickDetail(value)
+                      }
+                      onClickUpdate={() =>
+                        onClickUpdate && onClickUpdate(value)
+                      }
+                      onClickDelete={() =>
+                        onClickDelete && onClickDelete(value)
+                      }
                     />
                   </Td>
                 </tr>

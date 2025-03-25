@@ -1,22 +1,28 @@
 import { useEffect, useRef, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import { Dialog } from "../../../components/global/Dialog";
 import { HeaderSection } from "../../../components/global/HeaderSection";
 import { PageSizeDropdown } from "../../../components/global/PageSizeDropdown";
 import { Pagination } from "../../../components/global/Pagination";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { useParams } from "../../../hooks/useParams";
-import { ListParams } from "../../../types/listParams";
-import { CountryTable } from "../components/CountryTable";
-import { useGetCountry } from "../hooks/useGetCountry";
 import { Action } from "../../../types/action";
-import { Button } from "../../../components/global/Button";
+import { ListParams } from "../../../types/listParams";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
+import { CountryTable } from "../components/CountryTable";
+import { DeleteBody } from "../components/DeleteBody";
+import { FormCountry } from "../components/FormCountry";
+import { useCreateCountry } from "../hooks/useCreateCountry";
+import { useDeleteCountry } from "../hooks/useDeleteCountry";
+import { useGetCountry } from "../hooks/useGetCountry";
+import { useUpdateCountry } from "../hooks/useUpdateCountry";
+import { Country } from "../schemas/countrySchema";
 
 export const CountryPage = () => {
   const [params, setParams] = useParams<ListParams>();
   const search = useDebounce(params.search, 500);
 
-  const { data, isLoading, isError, error } = useGetCountry(true, {
+  const { data, isLoading, isError, error, refetch } = useGetCountry(true, {
     search: search,
     page: params.page,
     size: params.size,
@@ -33,17 +39,66 @@ export const CountryPage = () => {
     []
   );
 
+  const useCreate = useCreateCountry();
+  const useUpdate = useUpdateCountry();
+  const useDelete = useDeleteCountry();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const [actionDialog, setActionDialog] = useState<Action>("none");
+  const [actionDialog, setActionDialog] = useState<{
+    action: Action;
+    id?: number;
+    data?: Country;
+  }>({ action: "none" });
 
-  const openDialog = (action: Action) => {
-    setActionDialog(action);
+  const openDialog = (action: Action, id?: number, data?: Country) => {
+    setActionDialog({ action, id, data });
     if (dialogRef.current) dialogRef.current.showModal();
   };
 
   const closeDialog = () => {
-    setActionDialog("none");
+    setActionDialog({ action: "none" });
     if (dialogRef.current) dialogRef.current.close();
+  };
+
+  const onCreate = (data: Country) => {
+    useCreate.mutate(data, {
+      onSuccess: (response) => {
+        closeDialog();
+        refetch();
+        toast.success(response.message);
+      },
+      onError: (error) => toast.error(error?.response?.data.errors as string),
+    });
+  };
+
+  const onUpdate = (data: Country) => {
+    useUpdate.mutate(
+      { ...data, idCountry: actionDialog.id! },
+      {
+        onSuccess: (response) => {
+          closeDialog();
+          refetch();
+          toast.success(response.message);
+        },
+        onError: (error) => toast.error(error?.response?.data.errors as string),
+      }
+    );
+  };
+
+  const onDelete = () => {
+    useDelete.mutate(
+      { idCountry: actionDialog.id! },
+      {
+        onSuccess: (response) => {
+          if (data?.data.length === 1)
+            setParams({ page: data.paging.currentPage - 1 });
+
+          closeDialog();
+          refetch();
+          toast.success(response.message);
+        },
+        onError: (error) => toast.error(error?.response?.data.errors as string),
+      }
+    );
   };
 
   return (
@@ -61,9 +116,24 @@ export const CountryPage = () => {
         isError={isError}
         errorStatus={error?.response?.status}
         data={data}
-        onClickDetail={() => openDialog("detail")}
-        onClickUpdate={() => openDialog("update")}
-        onClickDelete={() => openDialog("delete")}
+        onClickDetail={(data) =>
+          openDialog("detail", data.id, {
+            countryName: data.countryName,
+            countryCode: data.countryCode,
+          })
+        }
+        onClickUpdate={(data) =>
+          openDialog("update", data.id, {
+            countryName: data.countryName,
+            countryCode: data.countryCode,
+          })
+        }
+        onClickDelete={(data) =>
+          openDialog("delete", data.id, {
+            countryName: data.countryName,
+            countryCode: data.countryCode,
+          })
+        }
       />
 
       {data?.data && data.data.length > 0 && (
@@ -83,31 +153,34 @@ export const CountryPage = () => {
 
       <Dialog
         ref={dialogRef}
-        title={`${capitalizeFirstText(actionDialog)} Country`}
+        title={`${capitalizeFirstText(actionDialog.action)} Country`}
         onClose={closeDialog}
       >
-        <div className="p-4 border-y">{actionDialog.toUpperCase()}</div>
+        {(actionDialog.action === "create" ||
+          actionDialog.action === "update" ||
+          actionDialog.action === "detail") && (
+          <FormCountry
+            isLoading={useCreate.isPending || useUpdate.isPending}
+            action={actionDialog.action}
+            onClickCancel={closeDialog}
+            value={actionDialog.data}
+            onSubmit={(data) => {
+              if (actionDialog.action === "create") return onCreate(data);
+              if (actionDialog.action === "update") return onUpdate(data);
+            }}
+          />
+        )}
 
-        {actionDialog !== "detail" && (
-          <div className="flex p-2 gap-2">
-            <Button
-              text="Cancel"
-              className="bg-gray-300 text-gray-500"
-              onClick={closeDialog}
-            />
-            <Button
-              className={
-                actionDialog === "update"
-                  ? "bg-amber-500"
-                  : actionDialog === "delete"
-                  ? "bg-red-500"
-                  : undefined
-              }
-              text={`${capitalizeFirstText(actionDialog)}`}
-            />
-          </div>
+        {actionDialog.action === "delete" && (
+          <DeleteBody
+            isLoading={isLoading}
+            close={closeDialog}
+            onDelete={onDelete}
+          />
         )}
       </Dialog>
+
+      <ToastContainer position="top-center" autoClose={1000} />
     </section>
   );
 };

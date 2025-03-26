@@ -42,6 +42,15 @@ export const Pagination = ({
         Prev
       </button>
 
+      {!getVisiblePages().includes(1) && (
+        <button
+          className="border p-2 rounded-lg hover:bg-primary hover:text-white active:opacity-80"
+          onClick={() => goToPage(1)}
+        >
+          {1}...
+        </button>
+      )}
+
       <div className="flex gap-1">
         {getVisiblePages().map((page) => (
           <button
@@ -57,9 +66,7 @@ export const Pagination = ({
 
         {!getVisiblePages().includes(totalPages) && (
           <button
-            className={`border p-2 rounded-lg hover:bg-primary hover:text-white active:opacity-80 ${
-              currentPage === totalPages ? "bg-primary text-white" : ""
-            }`}
+            className="border p-2 rounded-lg hover:bg-primary hover:text-white active:opacity-80"
             onClick={() => goToPage(totalPages)}
           >
             ...{totalPages}

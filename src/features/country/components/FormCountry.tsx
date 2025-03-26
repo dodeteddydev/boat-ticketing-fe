@@ -62,7 +62,7 @@ export const FormCountry = ({
           />
           <Button
             type="submit"
-            className={action === "update" ? "bg-[#f59e0b]" : undefined}
+            className={action === "update" ? "bg-amber-500" : undefined}
             text={`${capitalizeFirstText(action)}`}
           />
         </div>

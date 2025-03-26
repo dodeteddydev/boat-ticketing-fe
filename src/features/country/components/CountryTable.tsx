@@ -1,12 +1,16 @@
+import { useState } from "react";
 import notFound from "../../../assets/data-not-found.png";
 import error from "../../../assets/error.png";
 import processing from "../../../assets/processing.png";
 import { ActionButtonGroup } from "../../../components/global/ActionButtonGroup";
 import { Table, TBody, Td, Th, THead } from "../../../components/global/Table";
+import { Toggle } from "../../../components/global/Toggle";
+import { ActiveRequest } from "../../../types/activeRequest";
 import {
   Paging,
   SuccessListResponse,
 } from "../../../types/successListResponse";
+import { useActiveCountry } from "../hooks/useActiveCountry";
 import { CountryResponse } from "../types/countryResponse";
 
 type CountryTableProps = {
@@ -43,7 +47,7 @@ export const CountryTable = ({
           <Th>No</Th>
           <Th>Country</Th>
           <Th>Code</Th>
-          <Th>Action</Th>
+          <Th className="text-center">Action</Th>
         </THead>
         <TBody>
           {emptyData || isLoading || isError ? (
@@ -75,7 +79,7 @@ export const CountryTable = ({
                   </Td>
                   <Td>{value.countryName}</Td>
                   <Td>{value.countryCode}</Td>
-                  <Td className="ps-3">
+                  <Td className="flex flex-col items-center gap-2">
                     <ActionButtonGroup
                       onClickDetail={() =>
                         onClickDetail && onClickDetail(value)
@@ -87,6 +91,10 @@ export const CountryTable = ({
                         onClickDelete && onClickDelete(value)
                       }
                     />
+
+                    <ToggleCountry
+                      value={{ id: value.id, active: value.active }}
+                    />
                   </Td>
                 </tr>
               ))}
@@ -96,4 +104,25 @@ export const CountryTable = ({
       </Table>
     </div>
   );
+};
+
+const ToggleCountry = ({ value: { id, active } }: { value: ActiveRequest }) => {
+  const [isActive, setIsActive] = useState<boolean>(active);
+  const updateActive = useActiveCountry();
+
+  const onClickActive = () => {
+    const newActiveStatus = !isActive;
+
+    setIsActive(newActiveStatus);
+
+    updateActive.mutate(
+      { id, active: newActiveStatus },
+      {
+        onSuccess: () => setIsActive(newActiveStatus),
+        onError: () => setIsActive(isActive),
+      }
+    );
+  };
+
+  return <Toggle key={id} value={isActive} onChange={onClickActive} />;
 };

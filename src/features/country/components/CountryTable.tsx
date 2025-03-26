@@ -79,7 +79,7 @@ export const CountryTable = ({
                   </Td>
                   <Td>{value.countryName}</Td>
                   <Td>{value.countryCode}</Td>
-                  <Td className="flex flex-col items-center gap-2">
+                  <Td className="flex flex-row justify-center items-center gap-2">
                     <ActionButtonGroup
                       onClickDetail={() =>
                         onClickDetail && onClickDetail(value)

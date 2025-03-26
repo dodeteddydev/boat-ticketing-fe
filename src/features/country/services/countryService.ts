@@ -18,9 +18,12 @@ export class CountryService {
       .then((response) => response.data);
   }
 
-  static async active(id: number, request: ActiveRequest) {
+  static async active(request: ActiveRequest) {
     return axiosInstance
-      .put<SuccessResponse<CountryResponse>>(`/country/${id}`, request)
+      .patch<SuccessResponse<CountryResponse>>(
+        `/country/${request.id}/active`,
+        request
+      )
       .then((response) => response.data);
   }
 

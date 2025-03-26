@@ -5,6 +5,7 @@ import { Button } from "./global/Button";
 import { Dialog } from "./global/Dialog";
 import { Sidebar } from "./Sidebar";
 import { Role } from "../enums/accessed";
+import { capitalizeFirstText } from "../utilities/capitalizeFirstText";
 
 type BaseLayoutProps = {
   children: ReactNode;
@@ -66,9 +67,7 @@ export const BaseLayout = ({ children, isError, role }: BaseLayoutProps) => {
         <p className="p-4 border-y">
           {isError
             ? "Your session has expired. Please log in again to continue."
-            : `${
-                role?.charAt(0).toUpperCase() + role?.slice(1)
-              } can't access this app.`}
+            : `${capitalizeFirstText(role)} can't access this app.`}
         </p>
 
         <div className="p-2">

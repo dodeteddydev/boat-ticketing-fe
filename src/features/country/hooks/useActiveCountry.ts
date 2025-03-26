@@ -10,9 +10,8 @@ export const useActiveCountry = () => {
   return useMutation<
     SuccessResponse<CountryResponse>,
     AxiosError<ErrorResponse>,
-    ActiveRequest & { idCountry: number }
+    ActiveRequest
   >({
-    mutationFn: ({ idCountry, ...request }) =>
-      CountryService.active(idCountry, request),
+    mutationFn: (request) => CountryService.active(request),
   });
 };

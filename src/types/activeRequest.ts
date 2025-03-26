@@ -1,1 +1,1 @@
-export type ActiveRequest = { active: boolean };
+export type ActiveRequest = { id: number; active: boolean };

@@ -4,6 +4,7 @@ import { LoginPage } from "../features/login/pages/LoginPage";
 import { RegisterPage } from "../features/register/pages/RegisterPage";
 import { DashboardPage } from "../features/dashboard/pages/DashboardPage";
 import { CountryPage } from "../features/country/pages/CountryPage";
+import { ProvincePage } from "../features/province/pages/ProvincePage";
 
 type PageRoutesType = {
   path: string;
@@ -30,6 +31,11 @@ export const PageRoutes: PageRoutesType[] = [
   {
     path: PathRoutes.country,
     element: <CountryPage />,
+    routeType: "protected",
+  },
+  {
+    path: PathRoutes.province,
+    element: <ProvincePage />,
     routeType: "protected",
   },
 ];

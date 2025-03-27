@@ -1,12 +1,16 @@
-import { Button } from "../../../components/global/Button";
+import { Button } from "./Button";
 
-type DeleteBodyProps = {
+type DeleteBodyDialogProps = {
   isLoading?: boolean;
   close: () => void;
   onDelete: () => void;
 };
 
-export const DeleteBody = ({ isLoading, close, onDelete }: DeleteBodyProps) => {
+export const DeleteBodyDialog = ({
+  isLoading,
+  close,
+  onDelete,
+}: DeleteBodyDialogProps) => {
   return (
     <div>
       {isLoading && (

@@ -54,7 +54,7 @@ export const Pagination = ({
       <div className="flex gap-1">
         {getVisiblePages().map((page) => (
           <button
-            className={`border p-2 rounded-lg w-10 hover:bg-primary hover:text-white active:opacity-80 ${
+            className={`flex flex-row justify-center border p-2 rounded-lg w-10 hover:bg-primary hover:text-white active:opacity-80 ${
               currentPage === page ? "bg-primary text-white" : ""
             }`}
             key={page}

@@ -39,6 +39,7 @@ export const SelectField = <T,>({
             "&:hover": {
               borderColor: error && "#EF4444",
             },
+            height: 40,
           }),
         }}
       />

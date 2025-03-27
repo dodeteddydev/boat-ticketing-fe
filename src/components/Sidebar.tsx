@@ -1,4 +1,4 @@
-import { Flag, LayoutDashboard } from "lucide-react";
+import { Globe, LayoutDashboard, Map } from "lucide-react";
 import { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Role } from "../enums/accessed";
@@ -47,6 +47,12 @@ const sidebarMenu: {
     path: PathRoutes.country,
     menu: "Country",
     accessed: [Role.superadmin],
-    icon: <Flag size={20} />,
+    icon: <Globe size={20} />,
+  },
+  {
+    path: PathRoutes.province,
+    menu: "Province",
+    accessed: [Role.superadmin],
+    icon: <Map size={20} />,
   },
 ];

@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSearchParams } from "react-router";
 
-export const useParams = <T extends Record<string, string | number>>() => {
+export const useParams = <
+  T extends Record<string, string | number | boolean>
+>() => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const getParams = (): T => {

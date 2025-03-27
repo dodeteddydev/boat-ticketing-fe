@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
-import { InputField } from "./InputField";
-import { Button } from "./Button";
+import { InputField } from "../../../components/global/InputField";
+import { Button } from "../../../components/global/Button";
 
 type HeaderSectionProps = {
   searchValue?: string;

@@ -3,4 +3,5 @@ export class PathRoutes {
   static signUp = "/sign-up";
   static dashboard = "/";
   static country = "/country";
+  static province = "/province";
 }

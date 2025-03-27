@@ -32,7 +32,7 @@ export const HeaderSectionProvince = ({
         />
         <CountryDropdown
           className="sm:w-52"
-          countryChoose={countryValue}
+          selectedValue={countryValue}
           onChange={(data) => onChangeCountry(data?.id)}
         />
         <FilterX

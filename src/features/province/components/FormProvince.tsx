@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "../../../components/global/Button";
 import { InputField } from "../../../components/global/InputField";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
@@ -24,6 +24,7 @@ export const FormProvince = ({
 }: FormProvinceProps) => {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<Province>({
@@ -48,11 +49,19 @@ export const FormProvince = ({
           label="Province Code"
           error={errors.provinceCode?.message}
         />
-        <CountryDropdown
-          isDisabled={action === "detail"}
-          placeholder="Enter Province code"
-          label="Province Code"
-          error={errors.provinceCode?.message}
+        <Controller
+          name="countryId"
+          control={control}
+          render={({ field }) => (
+            <CountryDropdown
+              disabled={action === "detail"}
+              placeholder="Select Country"
+              label="Country"
+              selectedValue={field.value}
+              onChange={(value) => field.onChange(Number(value?.value))}
+              error={errors.countryId?.message}
+            />
+          )}
         />
       </div>
 

@@ -9,12 +9,14 @@ import { CountryResponse } from "../types/countryResponse";
 type CountryDropdownOption = DropdownOptions & CountryResponse;
 
 export const CountryDropdown = ({
-  countryChoose,
   initalFetch = true,
+  selectedValue,
+  disabled,
   ...props
 }: Omit<SelectFieldProps<CountryDropdownOption>, "options"> & {
-  countryChoose?: number;
   initalFetch?: boolean;
+  selectedValue?: number;
+  disabled?: boolean;
 }) => {
   const { data, isLoading, isError, error } = useGetCountry(initalFetch, {
     all: true,
@@ -31,7 +33,7 @@ export const CountryDropdown = ({
   return (
     <SelectField<CountryDropdownOption>
       {...props}
-      isDisabled={isLoading || isError}
+      isDisabled={isLoading || isError || disabled}
       options={dataCountry}
       menuPosition="fixed"
       placeholder={
@@ -39,11 +41,11 @@ export const CountryDropdown = ({
           ? "Loading..."
           : isError
           ? `${error.status} ${error.response?.data.message}`
-          : "Choose Country"
+          : "Select Country"
       }
       value={
-        countryChoose
-          ? dataCountry.find((value) => value.id === countryChoose)
+        selectedValue
+          ? dataCountry.find((value) => value.id === selectedValue)
           : null
       }
     />

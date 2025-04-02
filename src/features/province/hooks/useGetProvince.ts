@@ -4,9 +4,9 @@ import { AxiosError } from "axios";
 import { ErrorResponse } from "../../../types/errorResponse";
 import { ProvinceResponse } from "../types/provinceResponse";
 import { ProvinceService } from "../services/provinceService";
-import { CountryParams } from "../types/countryParams";
+import { ProvinceParams } from "../types/provinceParams";
 
-export const useGetProvince = (enabled = true, params?: CountryParams) => {
+export const useGetProvince = (enabled = true, params?: ProvinceParams) => {
   return useQuery<
     SuccessListResponse<ProvinceResponse[]>,
     AxiosError<ErrorResponse>

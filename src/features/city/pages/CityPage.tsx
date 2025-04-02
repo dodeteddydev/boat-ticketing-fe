@@ -8,25 +8,26 @@ import { useDebounce } from "../../../hooks/useDebounce";
 import { useParams } from "../../../hooks/useParams";
 import { Action } from "../../../types/action";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
-import { FormProvince } from "../components/FormProvince";
-import { HeaderSectionProvince } from "../components/HeaderSectionProvince";
-import { ProvinceTable } from "../components/ProvinceTable";
-import { useCreateProvince } from "../hooks/useCreateProvince";
-import { useDeleteProvince } from "../hooks/useDeleteProvince";
-import { useGetProvince } from "../hooks/useGetProvince";
-import { useUpdateProvince } from "../hooks/useUpdateProvince";
-import { Province } from "../schemas/provinceSchema";
-import { ProvinceParams } from "../types/provinceParams";
+import { CityForm } from "../components/CityForm";
+import { CityHeaderSection } from "../components/CityHeaderSection";
+import { CityTable } from "../components/CityTable";
+import { useCreateCity } from "../hooks/useCreateCity";
+import { useDeleteCity } from "../hooks/useDeleteCity";
+import { useGetCity } from "../hooks/useGetCity";
+import { useUpdateCity } from "../hooks/useUpdateCity";
+import { City } from "../schemas/CitySchema";
+import { CityParams } from "../types/cityParams";
 
-export const ProvincePage = () => {
-  const [params, setParams] = useParams<ProvinceParams>();
+export const CityPage = () => {
+  const [params, setParams] = useParams<CityParams>();
   const search = useDebounce(params.search, 500);
 
-  const { data, isLoading, isError, error, refetch } = useGetProvince(true, {
+  const { data, isLoading, isError, error, refetch } = useGetCity(true, {
     search: params.search ? search : undefined,
     page: params.page,
     size: params.size,
     countryId: params.countryId,
+    provinceId: params.provinceId,
   });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,19 +39,20 @@ export const ProvincePage = () => {
       page: 1,
       size: 10,
       countryId: undefined,
+      provinceId: undefined,
     });
 
-  const useCreate = useCreateProvince();
-  const useUpdate = useUpdateProvince();
-  const useDelete = useDeleteProvince();
+  const useCreate = useCreateCity();
+  const useUpdate = useUpdateCity();
+  const useDelete = useDeleteCity();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [actionDialog, setActionDialog] = useState<{
     action: Action;
     id?: number;
-    data?: Province;
+    data?: City;
   }>({ action: "none" });
 
-  const openDialog = (action: Action, id?: number, data?: Province) => {
+  const openDialog = (action: Action, id?: number, data?: City) => {
     setActionDialog({ action, id, data });
     if (dialogRef.current) dialogRef.current.showModal();
   };
@@ -60,7 +62,7 @@ export const ProvincePage = () => {
     if (dialogRef.current) dialogRef.current.close();
   };
 
-  const onCreate = (data: Province) => {
+  const onCreate = (data: City) => {
     useCreate.mutate(data, {
       onSuccess: (response) => {
         closeDialog();
@@ -71,9 +73,9 @@ export const ProvincePage = () => {
     });
   };
 
-  const onUpdate = (data: Province) => {
+  const onUpdate = (data: City) => {
     useUpdate.mutate(
-      { ...data, idProvince: actionDialog.id! },
+      { ...data, idCity: actionDialog.id! },
       {
         onSuccess: (response) => {
           closeDialog();
@@ -87,7 +89,7 @@ export const ProvincePage = () => {
 
   const onDelete = () => {
     useDelete.mutate(
-      { idProvince: actionDialog.id! },
+      { idCity: actionDialog.id! },
       {
         onSuccess: (response) => {
           if (data?.data.length === 1)
@@ -104,41 +106,43 @@ export const ProvincePage = () => {
 
   return (
     <section>
-      <h1 className="font-semibold text-2xl">Province</h1>
+      <h1 className="font-semibold text-2xl">City</h1>
 
-      <HeaderSectionProvince
+      <CityHeaderSection
         searchValue={params.search}
         onChangeSearch={(e) => setParams({ search: e.target.value, page: 1 })}
         countryValue={params.countryId}
         onChangeCountry={(value) => setParams({ countryId: value, page: 1 })}
+        provinceValue={params.provinceId}
+        onChangeProvince={(value) => setParams({ provinceId: value, page: 1 })}
         onClear={setDefaultParams}
         onCreate={() => openDialog("create")}
       />
 
-      <ProvinceTable
+      <CityTable
         isLoading={isLoading}
         isError={isError}
         errorStatus={error?.response?.status}
         data={data}
         onClickDetail={(data) =>
           openDialog("detail", data.id, {
-            provinceName: data.provinceName,
-            provinceCode: data.provinceCode,
+            cityName: data.cityName,
             countryId: data.country.id,
+            provinceId: data.province.id,
           })
         }
         onClickUpdate={(data) =>
           openDialog("update", data.id, {
-            provinceName: data.provinceName,
-            provinceCode: data.provinceCode,
+            cityName: data.cityName,
             countryId: data.country.id,
+            provinceId: data.province.id,
           })
         }
         onClickDelete={(data) =>
           openDialog("delete", data.id, {
-            provinceName: data.provinceName,
-            provinceCode: data.provinceCode,
+            cityName: data.cityName,
             countryId: data.country.id,
+            provinceId: data.province.id,
           })
         }
       />
@@ -160,13 +164,13 @@ export const ProvincePage = () => {
 
       <Dialog
         ref={dialogRef}
-        title={`${capitalizeFirstText(actionDialog.action)} Province`}
+        title={`${capitalizeFirstText(actionDialog.action)} City`}
         onClose={closeDialog}
       >
         {(actionDialog.action === "create" ||
           actionDialog.action === "update" ||
           actionDialog.action === "detail") && (
-          <FormProvince
+          <CityForm
             isLoading={useCreate.isPending || useUpdate.isPending}
             action={actionDialog.action}
             onClickCancel={closeDialog}

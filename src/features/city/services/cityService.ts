@@ -1,27 +1,27 @@
 import { axiosInstance } from "../../../services/axiosInstance";
 import { ActiveRequest } from "../../../types/activeRequest";
+import { ListParams } from "../../../types/listParams";
 import { SuccessListResponse } from "../../../types/successListResponse";
 import { SuccessResponse } from "../../../types/successResponse";
-import { ProvinceParams } from "../types/provinceParams";
-import { ProvinceResponse } from "../types/provinceResponse";
+import { CityResponse } from "../types/cityResponse";
 
-export class ProvinceService {
-  static async create(request: ProvinceService) {
+export class CityService {
+  static async create(request: CityService) {
     return axiosInstance
-      .post<SuccessResponse<ProvinceResponse>>("/province", request)
+      .post<SuccessResponse<CityResponse>>("/city", request)
       .then((response) => response.data);
   }
 
-  static async update(id: number, request: ProvinceService) {
+  static async update(id: number, request: CityService) {
     return axiosInstance
-      .put<SuccessResponse<ProvinceResponse>>(`/province/${id}`, request)
+      .put<SuccessResponse<CityResponse>>(`/city/${id}`, request)
       .then((response) => response.data);
   }
 
   static async active(request: ActiveRequest) {
     return axiosInstance
-      .patch<SuccessResponse<ProvinceResponse>>(
-        `/province/${request.id}/active`,
+      .patch<SuccessResponse<CityResponse>>(
+        `/city/${request.id}/active`,
         request
       )
       .then((response) => response.data);
@@ -29,13 +29,13 @@ export class ProvinceService {
 
   static async delete(id: number) {
     return axiosInstance
-      .delete<SuccessResponse<ProvinceResponse>>(`/province/${id}`)
+      .delete<SuccessResponse<CityResponse>>(`/city/${id}`)
       .then((response) => response.data);
   }
 
-  static async get(params?: ProvinceParams) {
+  static async get(params?: ListParams) {
     return axiosInstance
-      .get<SuccessListResponse<ProvinceResponse[]>>("/province", { params })
+      .get<SuccessListResponse<CityResponse[]>>("/city", { params })
       .then((response) => response.data);
   }
 }

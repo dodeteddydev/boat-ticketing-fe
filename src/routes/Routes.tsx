@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate, Route, Routes as Router } from "react-router";
 import processing from "../assets/processing.png";
+import pageNotFound from "../assets/page-not-found.png";
 import { BaseLayout } from "../components/BaseLayout";
 import { useGlobalContext } from "../context/useGlobalContext";
 import { Role } from "../enums/accessed";
@@ -30,6 +31,15 @@ export const Routes = () => {
 
   return (
     <Router>
+      <Route
+        path="*"
+        element={
+          <div className="h-screen flex flex-col items-center justify-center">
+            <img className="h-80 w-80" src={pageNotFound} alt="pageNotFound" />
+            <p className="text-3xl font-semibold">Page Not Found</p>
+          </div>
+        }
+      />
       <Route
         path={PathRoutes.login}
         element={

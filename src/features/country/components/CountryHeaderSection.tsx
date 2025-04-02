@@ -2,17 +2,17 @@ import { ChangeEvent } from "react";
 import { InputField } from "../../../components/global/InputField";
 import { Button } from "../../../components/global/Button";
 
-type HeaderSectionProps = {
+type CountryHeaderSectionProps = {
   searchValue?: string;
   onChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void;
   onCreate: () => void;
 };
 
-export const HeaderSection = ({
+export const CountryHeaderSection = ({
   searchValue = "",
   onChangeSearch,
   onCreate,
-}: HeaderSectionProps) => {
+}: CountryHeaderSectionProps) => {
   return (
     <section className="flex flex-col sm:flex-row sm:justify-between mt-4 max-sm:gap-3">
       <InputField

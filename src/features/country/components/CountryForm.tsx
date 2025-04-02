@@ -1,34 +1,32 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "../../../components/global/Button";
 import { InputField } from "../../../components/global/InputField";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
-import { Province, provinceSchema } from "../schemas/provinceSchema";
+import { Country, countrySchema } from "../schemas/countrySchema";
 import { Action } from "../../../types/action";
-import { CountryDropdown } from "../../country/components/CountryDropdown";
 
-type FormProvinceProps = {
+type CountryFormProps = {
   action: Action;
   isLoading?: boolean;
   onClickCancel: () => void;
-  value?: Province;
-  onSubmit: (data: Province) => void;
+  value?: Country;
+  onSubmit: (data: Country) => void;
 };
 
-export const FormProvince = ({
+export const CountryForm = ({
   action,
   isLoading,
   onClickCancel,
   value,
   onSubmit,
-}: FormProvinceProps) => {
+}: CountryFormProps) => {
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
-  } = useForm<Province>({
-    resolver: zodResolver(provinceSchema),
+  } = useForm<Country>({
+    resolver: zodResolver(countrySchema),
     defaultValues: value,
   });
 
@@ -36,32 +34,18 @@ export const FormProvince = ({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="p-4 border-y flex flex-col gap-4">
         <InputField
-          {...register("provinceName")}
+          {...register("countryName")}
           disabled={action === "detail"}
-          placeholder="Enter Province name"
-          label="Province Name"
-          error={errors.provinceName?.message}
+          placeholder="Enter country name"
+          label="Country Name"
+          error={errors.countryName?.message}
         />
         <InputField
-          {...register("provinceCode")}
+          {...register("countryCode")}
           disabled={action === "detail"}
-          placeholder="Enter Province code"
-          label="Province Code"
-          error={errors.provinceCode?.message}
-        />
-        <Controller
-          name="countryId"
-          control={control}
-          render={({ field }) => (
-            <CountryDropdown
-              disabled={action === "detail"}
-              placeholder="Select Country"
-              label="Country"
-              selectedValue={field.value}
-              onChange={(value) => field.onChange(Number(value?.value))}
-              error={errors.countryId?.message}
-            />
-          )}
+          placeholder="Enter country code"
+          label="Country Code"
+          error={errors.countryCode?.message}
         />
       </div>
 

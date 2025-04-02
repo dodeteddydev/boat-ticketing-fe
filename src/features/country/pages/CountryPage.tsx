@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { Dialog } from "../../../components/global/Dialog";
-import { HeaderSection } from "../components/HeaderSectionCountry";
+import { CountryHeaderSection } from "../components/CountryHeaderSection";
 import { PageSizeDropdown } from "../../../components/global/PageSizeDropdown";
 import { Pagination } from "../../../components/global/Pagination";
 import { useDebounce } from "../../../hooks/useDebounce";
@@ -11,7 +11,7 @@ import { ListParams } from "../../../types/listParams";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
 import { CountryTable } from "../components/CountryTable";
 import { DeleteBodyDialog } from "../../../components/global/DeleteBodyDialog";
-import { FormCountry } from "../components/FormCountry";
+import { CountryForm } from "../components/CountryForm";
 import { useCreateCountry } from "../hooks/useCreateCountry";
 import { useDeleteCountry } from "../hooks/useDeleteCountry";
 import { useGetCountry } from "../hooks/useGetCountry";
@@ -105,7 +105,7 @@ export const CountryPage = () => {
     <section>
       <h1 className="font-semibold text-2xl">Country</h1>
 
-      <HeaderSection
+      <CountryHeaderSection
         searchValue={params.search}
         onChangeSearch={(e) => setParams({ search: e.target.value, page: 1 })}
         onCreate={() => openDialog("create")}
@@ -159,7 +159,7 @@ export const CountryPage = () => {
         {(actionDialog.action === "create" ||
           actionDialog.action === "update" ||
           actionDialog.action === "detail") && (
-          <FormCountry
+          <CountryForm
             isLoading={useCreate.isPending || useUpdate.isPending}
             action={actionDialog.action}
             onClickCancel={closeDialog}

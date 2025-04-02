@@ -4,7 +4,7 @@ import { Button } from "../../../components/global/Button";
 import { CountryDropdown } from "../../country/components/CountryDropdown";
 import { FilterX } from "lucide-react";
 
-type HeaderSectionProvinceProps = {
+type ProvinceHeaderSectionProps = {
   searchValue?: string;
   onChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void;
   countryValue?: number;
@@ -13,14 +13,14 @@ type HeaderSectionProvinceProps = {
   onCreate: () => void;
 };
 
-export const HeaderSectionProvince = ({
+export const ProvinceHeaderSection = ({
   searchValue = "",
   onChangeSearch,
   countryValue,
   onChangeCountry,
   onClear,
   onCreate,
-}: HeaderSectionProvinceProps) => {
+}: ProvinceHeaderSectionProps) => {
   return (
     <section className="flex flex-col sm:flex-row sm:justify-between mt-4 max-sm:gap-3">
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">

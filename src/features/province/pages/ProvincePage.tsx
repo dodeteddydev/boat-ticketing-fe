@@ -8,8 +8,8 @@ import { useDebounce } from "../../../hooks/useDebounce";
 import { useParams } from "../../../hooks/useParams";
 import { Action } from "../../../types/action";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
-import { FormProvince } from "../components/FormProvince";
-import { HeaderSectionProvince } from "../components/HeaderSectionProvince";
+import { ProvinceForm } from "../components/ProvinceForm";
+import { ProvinceHeaderSection } from "../components/ProvinceHeaderSection";
 import { ProvinceTable } from "../components/ProvinceTable";
 import { useCreateProvince } from "../hooks/useCreateProvince";
 import { useDeleteProvince } from "../hooks/useDeleteProvince";
@@ -106,7 +106,7 @@ export const ProvincePage = () => {
     <section>
       <h1 className="font-semibold text-2xl">Province</h1>
 
-      <HeaderSectionProvince
+      <ProvinceHeaderSection
         searchValue={params.search}
         onChangeSearch={(e) => setParams({ search: e.target.value, page: 1 })}
         countryValue={params.countryId}
@@ -166,7 +166,7 @@ export const ProvincePage = () => {
         {(actionDialog.action === "create" ||
           actionDialog.action === "update" ||
           actionDialog.action === "detail") && (
-          <FormProvince
+          <ProvinceForm
             isLoading={useCreate.isPending || useUpdate.isPending}
             action={actionDialog.action}
             onClickCancel={closeDialog}

@@ -7,7 +7,8 @@ import { CountryPage } from "../features/country/pages/CountryPage";
 import { ProvincePage } from "../features/province/pages/ProvincePage";
 import { CityPage } from "../features/city/pages/CityPage";
 import { Role } from "../enums/accessed";
-import { Building, Globe, LayoutDashboard, Map } from "lucide-react";
+import { Building, Globe, LayoutDashboard, Map, User } from "lucide-react";
+import { UserPage } from "../features/user/pages/UserPage";
 
 type PageRoutesType = {
   path: string;
@@ -35,6 +36,14 @@ export const PageRoutes: PageRoutesType[] = [
     accessed: [Role.all],
     icon: <LayoutDashboard size={20} />,
     element: <DashboardPage />,
+    routeType: "protected",
+  },
+  {
+    path: PathRoutes.user,
+    menu: "User",
+    accessed: [Role.superadmin, Role.boatOwner],
+    icon: <User size={20} />,
+    element: <UserPage />,
     routeType: "protected",
   },
   {

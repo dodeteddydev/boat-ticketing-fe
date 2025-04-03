@@ -1,4 +1,4 @@
 export type CreatedByResponse = {
-  id: number;
+  id: number | null;
   name: string;
 };

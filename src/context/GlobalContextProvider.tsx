@@ -1,4 +1,5 @@
 import { ReactNode, useState } from "react";
+import { ProfileResponse } from "../hooks/useGetProfile";
 import { LocalStorageHelpers } from "../utilities/localStorageHelpers";
 import { GlobalContext } from "./GlobalContext";
 
@@ -10,6 +11,7 @@ export const GlobalContextProvider = ({
   const [userStatus, setUserStatus] = useState<"authorized" | "unauthorized">(
     LocalStorageHelpers.getAccessToken() ? "authorized" : "unauthorized"
   );
+  const [profile, setProfile] = useState<ProfileResponse | undefined>();
 
   const setUserAuthority = (
     status: "authorized" | "unauthorized",
@@ -28,7 +30,9 @@ export const GlobalContextProvider = ({
   };
 
   return (
-    <GlobalContext.Provider value={{ userStatus, setUserAuthority }}>
+    <GlobalContext.Provider
+      value={{ userStatus, setUserAuthority, profile, setProfile }}
+    >
       {children}
     </GlobalContext.Provider>
   );

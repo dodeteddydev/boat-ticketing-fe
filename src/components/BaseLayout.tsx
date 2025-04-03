@@ -10,21 +10,25 @@ import { capitalizeFirstText } from "../utilities/capitalizeFirstText";
 type BaseLayoutProps = {
   children: ReactNode;
   isError: boolean;
-  role: Role;
+  // role: Role;
 };
 
-export const BaseLayout = ({ children, isError, role }: BaseLayoutProps) => {
-  const { setUserAuthority } = useGlobalContext();
+export const BaseLayout = ({ children, isError }: BaseLayoutProps) => {
+  const { setUserAuthority, profile } = useGlobalContext();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const openDialog = () => {
     if (dialogRef.current) dialogRef.current.showModal();
   };
 
   useEffect(() => {
-    if (isError || role === Role.customer) {
+    if (
+      isError ||
+      profile?.role === Role.customer ||
+      profile?.status === "unverified"
+    ) {
       openDialog();
     }
-  }, [role, isError]);
+  }, [profile, isError]);
 
   return (
     <div className="relative h-screen">
@@ -34,8 +38,9 @@ export const BaseLayout = ({ children, isError, role }: BaseLayoutProps) => {
           <h1 className="text-3xl font-semibold text-center">
             Boat Ticketing <span className="text-xs font-normal">v.1.0.0</span>
           </h1>
-          <Sidebar role={role} />
+          <Sidebar role={profile?.role as Role} />
           <ProfileDropdown
+            name={profile?.name ?? ""}
             profileClick={() => {}}
             logoutClick={() => setUserAuthority("unauthorized")}
           />
@@ -46,8 +51,9 @@ export const BaseLayout = ({ children, isError, role }: BaseLayoutProps) => {
 
         {/* SECTION SHOW WHEN MOBILE LAYOUT */}
         <section className="custom:hidden flex flex-row justify-between">
-          <MobileSidebar role={role} />
+          <MobileSidebar role={profile?.role as Role} />
           <ProfileDropdown
+            name={profile?.name ?? ""}
             isOnTop
             profileClick={() => {}}
             logoutClick={() => setUserAuthority("unauthorized")}
@@ -67,10 +73,18 @@ export const BaseLayout = ({ children, isError, role }: BaseLayoutProps) => {
         <p className="p-4 border-y">
           {isError
             ? "Your session has expired. Please log in again to continue."
-            : `${capitalizeFirstText(role)} can't access this app.`}
+            : profile?.status === "unverified"
+            ? "Please verify your account to access this app."
+            : `${capitalizeFirstText(
+                profile?.role ?? ""
+              )} can't access this app.`}
         </p>
 
-        <div className="p-2">
+        <div className="p-2 flex flex-col gap-2">
+          {profile?.status === "unverified" && (
+            <Button className="bg-green-500" text="Verify" onClick={() => {}} />
+          )}
+
           <Button
             text="Logout"
             onClick={() => {
@@ -88,10 +102,12 @@ export const ProfileDropdown = ({
   profileClick,
   logoutClick,
   isOnTop,
+  name,
 }: {
   isOnTop?: boolean;
   profileClick: () => void;
   logoutClick: () => void;
+  name: string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -110,12 +126,12 @@ export const ProfileDropdown = ({
   }, []);
 
   return (
-    <div className="relative self-center mb-4 z-30" ref={dropdownRef}>
+    <div className="relative mb-4 z-30" ref={dropdownRef}>
       {isOpen && (
         <div
           onMouseLeave={() => setIsOpen(false)}
           className={`absolute mt-2 w-40 bg-white border border-gray-300 rounded-md shadow-lg ${
-            isOnTop ? "top-10 right-2" : "bottom-7"
+            isOnTop ? "top-16 right-2" : "bottom-7 left-10"
           }`}
         >
           <ul className="py-2">
@@ -135,10 +151,13 @@ export const ProfileDropdown = ({
         </div>
       )}
 
-      <UserCircle
-        className={`cursor-pointer ${isOnTop && "m-4"}`}
-        onMouseEnter={() => setIsOpen(true)}
-      />
+      <div className={`flex flex-col items-center ${isOnTop && "m-4"}`}>
+        <p>{name}</p>
+        <UserCircle
+          className="cursor-pointer"
+          onMouseEnter={() => setIsOpen(true)}
+        />
+      </div>
     </div>
   );
 };

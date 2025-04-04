@@ -15,12 +15,11 @@ export const GlobalContextProvider = ({
 
   const setUserAuthority = (
     status: "authorized" | "unauthorized",
-    access?: string,
-    refresh?: string
+    access?: string
   ) => {
     if (status === "authorized") {
       setUserStatus("authorized");
-      LocalStorageHelpers.setToken(access!, refresh!);
+      LocalStorageHelpers.setToken(access!);
 
       return;
     }
@@ -31,7 +30,12 @@ export const GlobalContextProvider = ({
 
   return (
     <GlobalContext.Provider
-      value={{ userStatus, setUserAuthority, profile, setProfile }}
+      value={{
+        userStatus,
+        setUserAuthority,
+        profile,
+        setProfile,
+      }}
     >
       {children}
     </GlobalContext.Provider>

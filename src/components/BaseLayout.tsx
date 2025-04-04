@@ -10,7 +10,6 @@ import { capitalizeFirstText } from "../utilities/capitalizeFirstText";
 type BaseLayoutProps = {
   children: ReactNode;
   isError: boolean;
-  // role: Role;
 };
 
 export const BaseLayout = ({ children, isError }: BaseLayoutProps) => {

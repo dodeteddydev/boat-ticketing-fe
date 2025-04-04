@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
-import { LocalStorageHelpers } from "../utilities/localStorageHelpers";
 import { RefreshResponse } from "../types/refreshResponse";
 import { SuccessResponse } from "../types/successResponse";
+import { LocalStorageHelpers } from "../utilities/localStorageHelpers";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -10,6 +10,7 @@ export const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
@@ -28,19 +29,14 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const refreshToken = LocalStorageHelpers.getRefreshToken();
-
-    if (refreshToken && error.response?.status === 401) {
+    if (error.response?.status === 401) {
       try {
-        const { data } = await axios.post<SuccessResponse<RefreshResponse>>(
+        const { data } = await axios.get<SuccessResponse<RefreshResponse>>(
           `${baseUrl}/auth/refresh`,
-          { refreshToken }
+          { withCredentials: true }
         );
 
-        LocalStorageHelpers.setToken(
-          data.data.accessToken,
-          data.data.refreshToken
-        );
+        LocalStorageHelpers.setToken(data.data.accessToken);
       } catch (err) {
         const axiosError = err as AxiosError;
         return Promise.reject<AxiosError>(axiosError);

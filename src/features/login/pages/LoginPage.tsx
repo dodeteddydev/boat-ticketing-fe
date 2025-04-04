@@ -36,12 +36,7 @@ export const LoginPage = () => {
     login.mutate(data, {
       onSuccess: (response) => {
         setTimeout(
-          () =>
-            setUserAuthority(
-              "authorized",
-              response.data.accessToken,
-              response.data.refreshToken
-            ),
+          () => setUserAuthority("authorized", response.data.accessToken),
           1000
         );
         notify(response.message, "success");
@@ -94,12 +89,14 @@ export const LoginPage = () => {
                 <InputField
                   {...register("identifier")}
                   label="Username or email"
+                  placeholder="Enter username or email"
                   error={errors.identifier?.message}
                 />
                 <InputField
                   {...register("password")}
                   isPasswordField
                   label="Password"
+                  placeholder="Enter password"
                   error={errors.password?.message}
                 />
               </div>

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
+  platform: z.string().default("web"),
   identifier: z
     .string({ required_error: "Username or Email is required" })
     .min(1, "Username or email is required"),

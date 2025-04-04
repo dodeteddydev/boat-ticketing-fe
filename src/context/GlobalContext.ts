@@ -5,8 +5,7 @@ type GlobalContextType = {
   userStatus: "authorized" | "unauthorized";
   setUserAuthority: (
     status: "authorized" | "unauthorized",
-    access?: string,
-    refresh?: string
+    access?: string
   ) => void;
   profile?: ProfileResponse;
   setProfile: (profile: ProfileResponse) => void;

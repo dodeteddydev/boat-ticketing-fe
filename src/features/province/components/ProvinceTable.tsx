@@ -127,7 +127,7 @@ const ToggleProvince = ({
       { id, active: newActiveStatus },
       {
         onSuccess: () => setIsActive(newActiveStatus),
-        onError: () => setIsActive(isActive),
+        onError: () => setTimeout(() => setIsActive(isActive), 1000),
       }
     );
   };

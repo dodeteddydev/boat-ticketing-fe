@@ -82,22 +82,26 @@ export const RegisterPage = () => {
                 <InputField
                   {...register("name")}
                   label="Name"
+                  placeholder="Enter name"
                   error={errors.name?.message}
                 />
                 <InputField
                   {...register("username")}
                   label="Username"
+                  placeholder="Enter username"
                   error={errors.username?.message}
                 />
                 <InputField
                   {...register("email")}
                   label="Email"
+                  placeholder="Enter email"
                   error={errors.email?.message}
                 />
                 <InputField
                   {...register("password")}
                   isPasswordField
                   label="Password"
+                  placeholder="Enter password"
                   error={errors.password?.message}
                 />
               </div>

@@ -20,8 +20,10 @@ export const Routes = () => {
     Boolean(LocalStorageHelpers.getAccessToken())
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setProfile(data?.data as ProfileResponse), [data]);
+  useEffect(() => {
+    if (data) setProfile(data?.data as ProfileResponse);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, isError]);
 
   if (isLoading)
     return (

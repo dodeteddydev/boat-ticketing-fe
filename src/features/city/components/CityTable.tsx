@@ -126,7 +126,7 @@ const ToggleCity = ({ value: { id, active } }: { value: ActiveRequest }) => {
       { id, active: newActiveStatus },
       {
         onSuccess: () => setIsActive(newActiveStatus),
-        onError: () => setIsActive(isActive),
+        onError: () => setTimeout(() => setIsActive(isActive), 1000),
       }
     );
   };

@@ -10,20 +10,20 @@ import {
   Paging,
   SuccessListResponse,
 } from "../../../types/successListResponse";
-import { useActiveCity } from "../hooks/useActiveCity";
-import { CityResponse } from "../types/cityResponse";
+import { useActivePort } from "../hooks/useActivePort";
+import { PortResponse } from "../types/portResponse";
 
-type CityTableProps = {
+type PortTableProps = {
   isLoading?: boolean;
   isError?: boolean;
   errorStatus?: number;
-  data: SuccessListResponse<CityResponse[]> | undefined;
-  onClickDetail?: (data: CityResponse) => void;
-  onClickUpdate?: (data: CityResponse & { id: number }) => void;
-  onClickDelete?: (data: CityResponse) => void;
+  data: SuccessListResponse<PortResponse[]> | undefined;
+  onClickDetail?: (data: PortResponse) => void;
+  onClickUpdate?: (data: PortResponse & { id: number }) => void;
+  onClickDelete?: (data: PortResponse) => void;
 };
 
-export const CityTable = ({
+export const PortTable = ({
   data,
   isLoading,
   isError,
@@ -31,8 +31,8 @@ export const CityTable = ({
   onClickDetail,
   onClickUpdate,
   onClickDelete,
-}: CityTableProps) => {
-  const dataList: CityResponse[] = data?.data ?? [];
+}: PortTableProps) => {
+  const dataList: PortResponse[] = data?.data ?? [];
   const dataPaging: Paging = data?.paging ?? {
     currentPage: 1,
     totalPage: 1,
@@ -45,15 +45,17 @@ export const CityTable = ({
       <Table>
         <THead>
           <Th>No</Th>
-          <Th>City</Th>
+          <Th>Port</Th>
+          <Th>Code</Th>
           <Th>Country</Th>
           <Th>Province</Th>
+          <Th>City</Th>
           <Th className="text-center">Action</Th>
         </THead>
         <TBody>
           {emptyData || isLoading || isError ? (
             <tr>
-              <Td colSpan={5} align="center" className="font-bold h-40">
+              <Td colSpan={7} align="center" className="font-bold h-40">
                 <img
                   className="h-32 w-h-32"
                   src={isLoading ? processing : isError ? error : notFound}
@@ -72,13 +74,14 @@ export const CityTable = ({
             <>
               {dataList.map((value, index) => (
                 <tr
-                  key={`${value.cityName}${index}`}
+                  key={`${value.portName}${index}`}
                   className="border-b hover:bg-gray-50"
                 >
                   <Td>
                     {index + 1 + (dataPaging.currentPage - 1) * dataPaging.size}
                   </Td>
-                  <Td>{value.cityName}</Td>
+                  <Td>{value.portName}</Td>
+                  <Td>{value.portCode}</Td>
                   <Td>
                     {value.country.countryName} - {value.country.countryCode}
                   </Td>
@@ -86,6 +89,7 @@ export const CityTable = ({
                     {value.province.provinceName} -{" "}
                     {value.province.provinceCode}
                   </Td>
+                  <Td>{value.city.cityName}</Td>
                   <Td className="flex flex-row justify-center items-center gap-2">
                     <ActionButtonGroup
                       onClickDetail={() =>
@@ -99,7 +103,7 @@ export const CityTable = ({
                       }
                     />
 
-                    <ToggleCity
+                    <TogglePort
                       value={{ id: value.id, active: value.active }}
                     />
                   </Td>
@@ -113,9 +117,9 @@ export const CityTable = ({
   );
 };
 
-const ToggleCity = ({ value: { id, active } }: { value: ActiveRequest }) => {
+const TogglePort = ({ value: { id, active } }: { value: ActiveRequest }) => {
   const [isActive, setIsActive] = useState<boolean>(active);
-  const updateActive = useActiveCity();
+  const updateActive = useActivePort();
 
   const onClickActive = () => {
     const newActiveStatus = !isActive;

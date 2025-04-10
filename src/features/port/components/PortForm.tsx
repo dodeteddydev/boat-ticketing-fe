@@ -3,26 +3,27 @@ import { Controller, useForm } from "react-hook-form";
 import { Button } from "../../../components/global/Button";
 import { InputField } from "../../../components/global/InputField";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
-import { City, citySchema } from "../schemas/citySchema";
+import { Port, portSchema } from "../schemas/portSchema";
 import { Action } from "../../../types/action";
 import { CountryDropdown } from "../../country/components/CountryDropdown";
 import { ProvinceDropdown } from "../../province/components/ProvinceDropdown";
+import { CityDropdown } from "../../city/components/CityDropdown";
 
-type CityFormProps = {
+type PortFormProps = {
   action: Action;
   isLoading?: boolean;
   onClickCancel: () => void;
-  value?: City;
-  onSubmit: (data: City) => void;
+  value?: Port;
+  onSubmit: (data: Port) => void;
 };
 
-export const CityForm = ({
+export const PortForm = ({
   action,
   isLoading,
   onClickCancel,
   value,
   onSubmit,
-}: CityFormProps) => {
+}: PortFormProps) => {
   const {
     register,
     control,
@@ -30,8 +31,8 @@ export const CityForm = ({
     formState: { errors },
     watch,
     resetField,
-  } = useForm<City>({
-    resolver: zodResolver(citySchema),
+  } = useForm<Port>({
+    resolver: zodResolver(portSchema),
     defaultValues: value,
   });
 
@@ -39,11 +40,18 @@ export const CityForm = ({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="p-4 border-y flex flex-col gap-4">
         <InputField
-          {...register("cityName")}
+          {...register("portName")}
           disabled={action === "detail"}
-          placeholder="Enter City"
-          label="City"
-          error={errors.cityName?.message}
+          placeholder="Enter Port name"
+          label="Port Name"
+          error={errors.portName?.message}
+        />
+        <InputField
+          {...register("portCode")}
+          disabled={action === "detail"}
+          placeholder="Enter Port code"
+          label="Port Code"
+          error={errors.portCode?.message}
         />
         <Controller
           name="countryId"
@@ -75,6 +83,30 @@ export const CityForm = ({
               selectedValue={field.value}
               onChange={(value) => field.onChange(Number(value?.value))}
               error={errors.provinceId?.message}
+            />
+          )}
+        />
+        <Controller
+          name="cityId"
+          control={control}
+          render={({ field }) => (
+            <CityDropdown
+              initalFetch={
+                Boolean(watch("countryId")) && Boolean(watch("provinceId"))
+              }
+              disabled={
+                action === "detail" ||
+                (!watch("countryId") && !watch("provinceId"))
+              }
+              params={{
+                countryId: watch("countryId"),
+                provinceId: watch("provinceId"),
+              }}
+              placeholder="Select Province"
+              label="Province"
+              selectedValue={field.value}
+              onChange={(value) => field.onChange(Number(value?.value))}
+              error={errors.cityId?.message}
             />
           )}
         />

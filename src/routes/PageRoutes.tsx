@@ -4,6 +4,7 @@ import {
   Globe,
   LayoutDashboard,
   Map,
+  MapPin,
   Ship,
   User,
 } from "lucide-react";
@@ -19,6 +20,7 @@ import { ProvincePage } from "../features/province/pages/ProvincePage";
 import { RegisterPage } from "../features/register/pages/RegisterPage";
 import { UserPage } from "../features/user/pages/UserPage";
 import { PathRoutes } from "./pathRoutes";
+import { PortPage } from "../features/port/pages/PortPage";
 
 type PageRoutesType = {
   path: string;
@@ -94,6 +96,14 @@ export const PageRoutes: PageRoutesType[] = [
     accessed: [Role.superadmin],
     icon: <Ship size={20} />,
     element: <BoatPage />,
+    routeType: "protected",
+  },
+  {
+    path: PathRoutes.port,
+    menu: "Port",
+    accessed: [Role.superadmin],
+    icon: <MapPin size={20} />,
+    element: <PortPage />,
     routeType: "protected",
   },
 ];

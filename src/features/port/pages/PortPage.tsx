@@ -114,9 +114,18 @@ export const PortPage = () => {
         searchValue={params.search}
         onChangeSearch={(e) => setParams({ search: e.target.value, page: 1 })}
         countryValue={params.countryId}
-        onChangeCountry={(value) => setParams({ countryId: value, page: 1 })}
+        onChangeCountry={(value) =>
+          setParams({
+            countryId: value,
+            page: 1,
+            provinceId: undefined,
+            cityId: undefined,
+          })
+        }
         provinceValue={params.provinceId}
-        onChangeProvince={(value) => setParams({ provinceId: value, page: 1 })}
+        onChangeProvince={(value) =>
+          setParams({ provinceId: value, page: 1, cityId: undefined })
+        }
         cityValue={params.cityId}
         onChangeCity={(value) => setParams({ cityId: value, page: 1 })}
         onClear={setDefaultParams}

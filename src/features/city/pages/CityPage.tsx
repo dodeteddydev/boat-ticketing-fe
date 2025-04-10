@@ -15,7 +15,7 @@ import { useCreateCity } from "../hooks/useCreateCity";
 import { useDeleteCity } from "../hooks/useDeleteCity";
 import { useGetCity } from "../hooks/useGetCity";
 import { useUpdateCity } from "../hooks/useUpdateCity";
-import { City } from "../schemas/CitySchema";
+import { City } from "../schemas/citySchema";
 import { CityParams } from "../types/cityParams";
 
 export const CityPage = () => {
@@ -110,9 +110,16 @@ export const CityPage = () => {
 
       <CityHeaderSection
         searchValue={params.search}
-        onChangeSearch={(e) => setParams({ search: e.target.value, page: 1 })}
+        onChangeSearch={(e) =>
+          setParams({
+            search: e.target.value,
+            page: 1,
+          })
+        }
         countryValue={params.countryId}
-        onChangeCountry={(value) => setParams({ countryId: value, page: 1 })}
+        onChangeCountry={(value) =>
+          setParams({ countryId: value, page: 1, provinceId: undefined })
+        }
         provinceValue={params.provinceId}
         onChangeProvince={(value) => setParams({ provinceId: value, page: 1 })}
         onClear={setDefaultParams}

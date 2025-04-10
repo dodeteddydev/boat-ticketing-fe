@@ -54,8 +54,8 @@ export const PortHeaderSection = ({
           onChange={(data) => onChangeProvince(data?.id)}
         />
         <CityDropdown
-          initalFetch={Boolean(countryValue) && Boolean(provinceValue)}
-          disabled={!countryValue && !provinceValue}
+          initalFetch={Boolean(countryValue && provinceValue)}
+          disabled={!countryValue || !provinceValue}
           params={{ countryId: countryValue, provinceId: provinceValue }}
           className="sm:w-52"
           selectedValue={cityValue}

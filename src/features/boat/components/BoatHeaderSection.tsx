@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { InputField } from "../../../components/global/InputField";
 import { Button } from "../../../components/global/Button";
-import { CategoryDropdown } from "../../";
+import { CategoryDropdown } from "../../category/components/CategoryDropdown";
 import { FilterX } from "lucide-react";
 
 type BoatHeaderSectionProps = {

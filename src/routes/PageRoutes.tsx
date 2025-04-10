@@ -4,10 +4,12 @@ import {
   Globe,
   LayoutDashboard,
   Map,
+  Ship,
   User,
 } from "lucide-react";
 import { ReactNode } from "react";
 import { Role } from "../enums/accessed";
+import { BoatPage } from "../features/boat/pages/BoatPage";
 import { CategoryPage } from "../features/category/pages/CategoryPage";
 import { CityPage } from "../features/city/pages/CityPage";
 import { CountryPage } from "../features/country/pages/CountryPage";
@@ -84,6 +86,14 @@ export const PageRoutes: PageRoutesType[] = [
     accessed: [Role.superadmin],
     icon: <Anchor size={20} />,
     element: <CategoryPage />,
+    routeType: "protected",
+  },
+  {
+    path: PathRoutes.boat,
+    menu: "Boat",
+    accessed: [Role.superadmin],
+    icon: <Ship size={20} />,
+    element: <BoatPage />,
     routeType: "protected",
   },
 ];

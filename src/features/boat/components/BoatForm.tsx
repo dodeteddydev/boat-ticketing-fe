@@ -5,7 +5,7 @@ import { InputField } from "../../../components/global/InputField";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
 import { Boat, boatSchema } from "../schemas/boatSchema";
 import { Action } from "../../../types/action";
-import { CountryDropdown } from "../../country/components/CountryDropdown";
+import { CategoryDropdown } from "../../category/components/CategoryDropdown";
 
 type BoatFormProps = {
   action: Action;
@@ -53,7 +53,7 @@ export const BoatForm = ({
           name="categoryId"
           control={control}
           render={({ field }) => (
-            <CountryDropdown
+            <CategoryDropdown
               disabled={action === "detail"}
               placeholder="Select Category"
               label="Category"

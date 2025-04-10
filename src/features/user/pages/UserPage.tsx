@@ -18,6 +18,7 @@ import { useGetUser } from "../hooks/useGetUser";
 import { useUpdateUser } from "../hooks/useUpdateUser";
 import { User } from "../schemas/userSchema";
 import { userPayloadMapper } from "../utilities/userPayloadMapper";
+import { ScrollablePaginationWrapper } from "../../../components/global/ScrollablePaginationWraper";
 
 export const UserPage = () => {
   const [params, setParams] = useParams<ListParams>();
@@ -129,7 +130,7 @@ export const UserPage = () => {
       />
 
       {data?.data && data.data.length > 0 && (
-        <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <ScrollablePaginationWrapper>
           <PageSizeDropdown
             value={{ label: `${params.size}`, value: params.size! }}
             onChange={(data) => setParams({ size: data?.value, page: 1 })}
@@ -140,7 +141,7 @@ export const UserPage = () => {
             totalPages={data?.paging.totalPage ?? 1}
             onPageChange={(page) => setParams({ page: page })}
           />
-        </div>
+        </ScrollablePaginationWrapper>
       )}
 
       <Dialog

@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router";
 import { Role } from "../enums/accessed";
 import { PageRoutes } from "../routes/PageRoutes";
 
-export const Sidebar = ({ role }: { role: Role }) => {
+export const SidebarItem = ({ role }: { role: Role }) => {
   const location = useLocation();
   const navigate = useNavigate();
 

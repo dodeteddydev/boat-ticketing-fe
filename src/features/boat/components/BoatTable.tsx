@@ -12,6 +12,7 @@ import {
 } from "../../../types/successListResponse";
 import { useActiveBoat } from "../hooks/useActiveBoat";
 import { BoatResponse } from "../types/boatResponse";
+import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
 
 type BoatTableProps = {
   isLoading?: boolean;
@@ -41,7 +42,7 @@ export const BoatTable = ({
   const emptyData = dataList.length < 1;
 
   return (
-    <div className="max-h-[750px] my-5 overflow-scroll">
+    <ScrollableTableWrapper maxHeight={"max-h-[450px]"}>
       <Table>
         <THead>
           <Th>No</Th>
@@ -107,7 +108,7 @@ export const BoatTable = ({
           )}
         </TBody>
       </Table>
-    </div>
+    </ScrollableTableWrapper>
   );
 };
 

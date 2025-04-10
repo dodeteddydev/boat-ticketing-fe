@@ -13,6 +13,7 @@ import {
 import { useActiveUser } from "../hooks/useActiveUser";
 import { UserResponse } from "../types/userResponse";
 import { Role } from "../../../enums/accessed";
+import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
 
 type UserTableProps = {
   isLoading?: boolean;
@@ -42,7 +43,7 @@ export const UserTable = ({
   const emptyData = dataList.length < 1;
 
   return (
-    <div className="max-h-[750px] my-5 overflow-scroll">
+    <ScrollableTableWrapper>
       <Table>
         <THead>
           <Th>No</Th>
@@ -111,7 +112,7 @@ export const UserTable = ({
           )}
         </TBody>
       </Table>
-    </div>
+    </ScrollableTableWrapper>
   );
 };
 

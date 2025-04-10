@@ -17,6 +17,7 @@ import { useGetBoat } from "../hooks/useGetBoat";
 import { useUpdateBoat } from "../hooks/useUpdateBoat";
 import { Boat } from "../schemas/boatSchema";
 import { BoatParams } from "../types/boatParams";
+import { ScrollablePaginationWrapper } from "../../../components/global/ScrollablePaginationWraper";
 
 export const BoatPage = () => {
   const [params, setParams] = useParams<BoatParams>();
@@ -144,7 +145,7 @@ export const BoatPage = () => {
       />
 
       {data?.data && data.data.length > 0 && (
-        <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <ScrollablePaginationWrapper>
           <PageSizeDropdown
             value={{ label: `${params.size}`, value: params.size! }}
             onChange={(data) => setParams({ size: data?.value, page: 1 })}
@@ -155,7 +156,7 @@ export const BoatPage = () => {
             totalPages={data?.paging.totalPage ?? 1}
             onPageChange={(page) => setParams({ page: page })}
           />
-        </div>
+        </ScrollablePaginationWrapper>
       )}
 
       <Dialog

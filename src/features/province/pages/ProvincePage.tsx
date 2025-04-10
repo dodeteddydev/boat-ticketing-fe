@@ -17,6 +17,7 @@ import { useGetProvince } from "../hooks/useGetProvince";
 import { useUpdateProvince } from "../hooks/useUpdateProvince";
 import { Province } from "../schemas/provinceSchema";
 import { ProvinceParams } from "../types/provinceParams";
+import { ScrollablePaginationWrapper } from "../../../components/global/ScrollablePaginationWraper";
 
 export const ProvincePage = () => {
   const [params, setParams] = useParams<ProvinceParams>();
@@ -144,7 +145,7 @@ export const ProvincePage = () => {
       />
 
       {data?.data && data.data.length > 0 && (
-        <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <ScrollablePaginationWrapper>
           <PageSizeDropdown
             value={{ label: `${params.size}`, value: params.size! }}
             onChange={(data) => setParams({ size: data?.value, page: 1 })}
@@ -155,7 +156,7 @@ export const ProvincePage = () => {
             totalPages={data?.paging.totalPage ?? 1}
             onPageChange={(page) => setParams({ page: page })}
           />
-        </div>
+        </ScrollablePaginationWrapper>
       )}
 
       <Dialog

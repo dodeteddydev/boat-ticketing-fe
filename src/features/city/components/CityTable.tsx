@@ -12,6 +12,7 @@ import {
 } from "../../../types/successListResponse";
 import { useActiveCity } from "../hooks/useActiveCity";
 import { CityResponse } from "../types/cityResponse";
+import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
 
 type CityTableProps = {
   isLoading?: boolean;
@@ -41,7 +42,7 @@ export const CityTable = ({
   const emptyData = dataList.length < 1;
 
   return (
-    <div className="max-h-[750px] my-5 overflow-scroll">
+    <ScrollableTableWrapper maxHeight={"max-h-[400px]"}>
       <Table>
         <THead>
           <Th>No</Th>
@@ -109,7 +110,7 @@ export const CityTable = ({
           )}
         </TBody>
       </Table>
-    </div>
+    </ScrollableTableWrapper>
   );
 };
 

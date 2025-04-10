@@ -12,6 +12,7 @@ import {
 } from "../../../types/successListResponse";
 import { useActiveCountry } from "../hooks/useActiveCountry";
 import { CountryResponse } from "../types/countryResponse";
+import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
 
 type CountryTableProps = {
   isLoading?: boolean;
@@ -41,7 +42,7 @@ export const CountryTable = ({
   const emptyData = dataList.length < 1;
 
   return (
-    <div className="max-h-[750px] my-5 overflow-scroll">
+    <ScrollableTableWrapper>
       <Table>
         <THead>
           <Th>No</Th>
@@ -102,7 +103,7 @@ export const CountryTable = ({
           )}
         </TBody>
       </Table>
-    </div>
+    </ScrollableTableWrapper>
   );
 };
 

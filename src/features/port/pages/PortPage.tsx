@@ -17,6 +17,7 @@ import { useGetPort } from "../hooks/useGetPort";
 import { useUpdatePort } from "../hooks/useUpdatePort";
 import { Port } from "../schemas/portSchema";
 import { PortParams } from "../types/portParams";
+import { ScrollablePaginationWrapper } from "../../../components/global/ScrollablePaginationWraper";
 
 export const PortPage = () => {
   const [params, setParams] = useParams<PortParams>();
@@ -167,7 +168,7 @@ export const PortPage = () => {
       />
 
       {data?.data && data.data.length > 0 && (
-        <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <ScrollablePaginationWrapper>
           <PageSizeDropdown
             value={{ label: `${params.size}`, value: params.size! }}
             onChange={(data) => setParams({ size: data?.value, page: 1 })}
@@ -178,7 +179,7 @@ export const PortPage = () => {
             totalPages={data?.paging.totalPage ?? 1}
             onPageChange={(page) => setParams({ page: page })}
           />
-        </div>
+        </ScrollablePaginationWrapper>
       )}
 
       <Dialog

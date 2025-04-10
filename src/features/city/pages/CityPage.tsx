@@ -17,6 +17,7 @@ import { useGetCity } from "../hooks/useGetCity";
 import { useUpdateCity } from "../hooks/useUpdateCity";
 import { City } from "../schemas/citySchema";
 import { CityParams } from "../types/cityParams";
+import { ScrollablePaginationWrapper } from "../../../components/global/ScrollablePaginationWraper";
 
 export const CityPage = () => {
   const [params, setParams] = useParams<CityParams>();
@@ -155,7 +156,7 @@ export const CityPage = () => {
       />
 
       {data?.data && data.data.length > 0 && (
-        <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <ScrollablePaginationWrapper>
           <PageSizeDropdown
             value={{ label: `${params.size}`, value: params.size! }}
             onChange={(data) => setParams({ size: data?.value, page: 1 })}
@@ -166,7 +167,7 @@ export const CityPage = () => {
             totalPages={data?.paging.totalPage ?? 1}
             onPageChange={(page) => setParams({ page: page })}
           />
-        </div>
+        </ScrollablePaginationWrapper>
       )}
 
       <Dialog

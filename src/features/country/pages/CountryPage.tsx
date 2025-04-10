@@ -17,6 +17,7 @@ import { useDeleteCountry } from "../hooks/useDeleteCountry";
 import { useGetCountry } from "../hooks/useGetCountry";
 import { useUpdateCountry } from "../hooks/useUpdateCountry";
 import { Country } from "../schemas/countrySchema";
+import { ScrollablePaginationWrapper } from "../../../components/global/ScrollablePaginationWraper";
 
 export const CountryPage = () => {
   const [params, setParams] = useParams<ListParams>();
@@ -137,7 +138,7 @@ export const CountryPage = () => {
       />
 
       {data?.data && data.data.length > 0 && (
-        <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <ScrollablePaginationWrapper>
           <PageSizeDropdown
             value={{ label: `${params.size}`, value: params.size! }}
             onChange={(data) => setParams({ size: data?.value, page: 1 })}
@@ -148,7 +149,7 @@ export const CountryPage = () => {
             totalPages={data?.paging.totalPage ?? 1}
             onPageChange={(page) => setParams({ page: page })}
           />
-        </div>
+        </ScrollablePaginationWrapper>
       )}
 
       <Dialog

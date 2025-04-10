@@ -17,6 +17,7 @@ import { useDeleteCategory } from "../hooks/useDeleteCategory";
 import { useGetCategory } from "../hooks/useGetCategory";
 import { useUpdateCategory } from "../hooks/useUpdateCategory";
 import { Category } from "../schemas/categorySchema";
+import { ScrollablePaginationWrapper } from "../../../components/global/ScrollablePaginationWraper";
 
 export const CategoryPage = () => {
   const [params, setParams] = useParams<ListParams>();
@@ -137,7 +138,7 @@ export const CategoryPage = () => {
       />
 
       {data?.data && data.data.length > 0 && (
-        <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <ScrollablePaginationWrapper>
           <PageSizeDropdown
             value={{ label: `${params.size}`, value: params.size! }}
             onChange={(data) => setParams({ size: data?.value, page: 1 })}
@@ -148,7 +149,7 @@ export const CategoryPage = () => {
             totalPages={data?.paging.totalPage ?? 1}
             onPageChange={(page) => setParams({ page: page })}
           />
-        </div>
+        </ScrollablePaginationWrapper>
       )}
 
       <Dialog

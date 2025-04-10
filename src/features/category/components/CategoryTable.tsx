@@ -12,6 +12,7 @@ import {
 } from "../../../types/successListResponse";
 import { useActiveCategory } from "../hooks/useActiveCategory";
 import { CategoryResponse } from "../types/categoryResponse";
+import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
 
 type CategoryTableProps = {
   isLoading?: boolean;
@@ -41,7 +42,7 @@ export const CategoryTable = ({
   const emptyData = dataList.length < 1;
 
   return (
-    <div className="max-h-[750px] my-5 overflow-scroll">
+    <ScrollableTableWrapper>
       <Table>
         <THead>
           <Th>No</Th>
@@ -102,7 +103,7 @@ export const CategoryTable = ({
           )}
         </TBody>
       </Table>
-    </div>
+    </ScrollableTableWrapper>
   );
 };
 

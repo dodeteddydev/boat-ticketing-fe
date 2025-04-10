@@ -12,6 +12,7 @@ import {
 } from "../../../types/successListResponse";
 import { useActivePort } from "../hooks/useActivePort";
 import { PortResponse } from "../types/portResponse";
+import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
 
 type PortTableProps = {
   isLoading?: boolean;
@@ -41,7 +42,7 @@ export const PortTable = ({
   const emptyData = dataList.length < 1;
 
   return (
-    <div className="max-h-[750px] my-5 overflow-scroll">
+    <ScrollableTableWrapper maxHeight={"max-h-[380px]"}>
       <Table>
         <THead>
           <Th>No</Th>
@@ -113,7 +114,7 @@ export const PortTable = ({
           )}
         </TBody>
       </Table>
-    </div>
+    </ScrollableTableWrapper>
   );
 };
 

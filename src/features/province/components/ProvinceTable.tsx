@@ -12,6 +12,7 @@ import {
 } from "../../../types/successListResponse";
 import { useActiveProvince } from "../hooks/useActiveProvince";
 import { ProvinceResponse } from "../types/provinceResponse";
+import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
 
 type ProvinceTableProps = {
   isLoading?: boolean;
@@ -41,7 +42,7 @@ export const ProvinceTable = ({
   const emptyData = dataList.length < 1;
 
   return (
-    <div className="max-h-[750px] my-5 overflow-scroll">
+    <ScrollableTableWrapper maxHeight={"max-h-[450px]"}>
       <Table>
         <THead>
           <Th>No</Th>
@@ -106,7 +107,7 @@ export const ProvinceTable = ({
           )}
         </TBody>
       </Table>
-    </div>
+    </ScrollableTableWrapper>
   );
 };
 

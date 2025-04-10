@@ -1,56 +1,55 @@
 import { useEffect, useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { DeleteBodyDialog } from "../../../components/global/DeleteBodyDialog";
 import { Dialog } from "../../../components/global/Dialog";
+import { CategoryHeaderSection } from "../components/CategoryHeaderSection";
 import { PageSizeDropdown } from "../../../components/global/PageSizeDropdown";
 import { Pagination } from "../../../components/global/Pagination";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { useParams } from "../../../hooks/useParams";
 import { Action } from "../../../types/action";
+import { ListParams } from "../../../types/listParams";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
-import { ProvinceForm } from "../components/ProvinceForm";
-import { ProvinceHeaderSection } from "../components/ProvinceHeaderSection";
-import { ProvinceTable } from "../components/ProvinceTable";
-import { useCreateProvince } from "../hooks/useCreateProvince";
-import { useDeleteProvince } from "../hooks/useDeleteProvince";
-import { useGetProvince } from "../hooks/useGetProvince";
-import { useUpdateProvince } from "../hooks/useUpdateProvince";
-import { Province } from "../schemas/provinceSchema";
-import { ProvinceParams } from "../types/provinceParams";
+import { CategoryTable } from "../components/CategoryTable";
+import { DeleteBodyDialog } from "../../../components/global/DeleteBodyDialog";
+import { CategoryForm } from "../components/CategoryForm";
+import { useCreateCategory } from "../hooks/useCreateCategory";
+import { useDeleteCategory } from "../hooks/useDeleteCategory";
+import { useGetCategory } from "../hooks/useGetCategory";
+import { useUpdateCategory } from "../hooks/useUpdateCategory";
+import { Category } from "../schemas/categorySchema";
 
-export const ProvincePage = () => {
-  const [params, setParams] = useParams<ProvinceParams>();
+export const CategoryPage = () => {
+  const [params, setParams] = useParams<ListParams>();
   const search = useDebounce(params.search, 500);
 
-  const { data, isLoading, isError, error, refetch } = useGetProvince(true, {
-    search: params.search ? search : undefined,
+  const { data, isLoading, isError, error, refetch } = useGetCategory(true, {
+    search: search,
     page: params.page,
     size: params.size,
-    countryId: params.countryId,
   });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setDefaultParams(), []);
+  useEffect(
+    () =>
+      setParams({
+        search: undefined,
+        page: 1,
+        size: 10,
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
-  const setDefaultParams = () =>
-    setParams({
-      search: undefined,
-      page: 1,
-      size: 10,
-      countryId: undefined,
-    });
-
-  const useCreate = useCreateProvince();
-  const useUpdate = useUpdateProvince();
-  const useDelete = useDeleteProvince();
+  const useCreate = useCreateCategory();
+  const useUpdate = useUpdateCategory();
+  const useDelete = useDeleteCategory();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [actionDialog, setActionDialog] = useState<{
     action: Action;
     id?: number;
-    data?: Province;
+    data?: Category;
   }>({ action: "none" });
 
-  const openDialog = (action: Action, id?: number, data?: Province) => {
+  const openDialog = (action: Action, id?: number, data?: Category) => {
     setActionDialog({ action, id, data });
     if (dialogRef.current) dialogRef.current.showModal();
   };
@@ -60,7 +59,7 @@ export const ProvincePage = () => {
     if (dialogRef.current) dialogRef.current.close();
   };
 
-  const onCreate = (data: Province) => {
+  const onCreate = (data: Category) => {
     useCreate.mutate(data, {
       onSuccess: (response) => {
         closeDialog();
@@ -71,9 +70,9 @@ export const ProvincePage = () => {
     });
   };
 
-  const onUpdate = (data: Province) => {
+  const onUpdate = (data: Category) => {
     useUpdate.mutate(
-      { ...data, idProvince: actionDialog.id! },
+      { ...data, idCategory: actionDialog.id! },
       {
         onSuccess: (response) => {
           closeDialog();
@@ -87,7 +86,7 @@ export const ProvincePage = () => {
 
   const onDelete = () => {
     useDelete.mutate(
-      { idProvince: actionDialog.id! },
+      { idCategory: actionDialog.id! },
       {
         onSuccess: (response) => {
           if (data?.data.length === 1 && data.paging.totalPage !== 1)
@@ -104,41 +103,35 @@ export const ProvincePage = () => {
 
   return (
     <section>
-      <h1 className="font-semibold text-2xl">Province</h1>
+      <h1 className="font-semibold text-2xl">Category</h1>
 
-      <ProvinceHeaderSection
+      <CategoryHeaderSection
         searchValue={params.search}
         onChangeSearch={(e) => setParams({ search: e.target.value, page: 1 })}
-        countryValue={params.countryId}
-        onChangeCountry={(value) => setParams({ countryId: value, page: 1 })}
-        onClear={setDefaultParams}
         onCreate={() => openDialog("create")}
       />
 
-      <ProvinceTable
+      <CategoryTable
         isLoading={isLoading}
         isError={isError}
         errorStatus={error?.response?.status}
         data={data}
         onClickDetail={(data) =>
           openDialog("detail", data.id, {
-            provinceName: data.provinceName,
-            provinceCode: data.provinceCode,
-            countryId: data.country.id,
+            categoryName: data.categoryName,
+            categoryCode: data.categoryCode,
           })
         }
         onClickUpdate={(data) =>
           openDialog("update", data.id, {
-            provinceName: data.provinceName,
-            provinceCode: data.provinceCode,
-            countryId: data.country.id,
+            categoryName: data.categoryName,
+            categoryCode: data.categoryCode,
           })
         }
         onClickDelete={(data) =>
           openDialog("delete", data.id, {
-            provinceName: data.provinceName,
-            provinceCode: data.provinceCode,
-            countryId: data.country.id,
+            categoryName: data.categoryName,
+            categoryCode: data.categoryCode,
           })
         }
       />
@@ -160,13 +153,13 @@ export const ProvincePage = () => {
 
       <Dialog
         ref={dialogRef}
-        title={`${capitalizeFirstText(actionDialog.action)} Province`}
+        title={`${capitalizeFirstText(actionDialog.action)} Category`}
         onClose={closeDialog}
       >
         {(actionDialog.action === "create" ||
           actionDialog.action === "update" ||
           actionDialog.action === "detail") && (
-          <ProvinceForm
+          <CategoryForm
             isLoading={useCreate.isPending || useUpdate.isPending}
             action={actionDialog.action}
             onClickCancel={closeDialog}

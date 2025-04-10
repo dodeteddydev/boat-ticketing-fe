@@ -1,14 +1,22 @@
+import {
+  Anchor,
+  Building,
+  Globe,
+  LayoutDashboard,
+  Map,
+  User,
+} from "lucide-react";
 import { ReactNode } from "react";
-import { PathRoutes } from "./pathRoutes";
-import { LoginPage } from "../features/login/pages/LoginPage";
-import { RegisterPage } from "../features/register/pages/RegisterPage";
-import { DashboardPage } from "../features/dashboard/pages/DashboardPage";
-import { CountryPage } from "../features/country/pages/CountryPage";
-import { ProvincePage } from "../features/province/pages/ProvincePage";
-import { CityPage } from "../features/city/pages/CityPage";
 import { Role } from "../enums/accessed";
-import { Building, Globe, LayoutDashboard, Map, User } from "lucide-react";
+import { CategoryPage } from "../features/category/pages/CategoryPage";
+import { CityPage } from "../features/city/pages/CityPage";
+import { CountryPage } from "../features/country/pages/CountryPage";
+import { DashboardPage } from "../features/dashboard/pages/DashboardPage";
+import { LoginPage } from "../features/login/pages/LoginPage";
+import { ProvincePage } from "../features/province/pages/ProvincePage";
+import { RegisterPage } from "../features/register/pages/RegisterPage";
 import { UserPage } from "../features/user/pages/UserPage";
+import { PathRoutes } from "./pathRoutes";
 
 type PageRoutesType = {
   path: string;
@@ -68,6 +76,14 @@ export const PageRoutes: PageRoutesType[] = [
     accessed: [Role.superadmin],
     icon: <Building size={20} />,
     element: <CityPage />,
+    routeType: "protected",
+  },
+  {
+    path: PathRoutes.category,
+    menu: "Category",
+    accessed: [Role.superadmin],
+    icon: <Anchor size={20} />,
+    element: <CategoryPage />,
     routeType: "protected",
   },
 ];

@@ -1,8 +1,9 @@
 import { CreatedByResponse } from "../../../types/createdByResponse";
 
-export type CityResponse = {
+export type PortResponse = {
   id: number;
-  cityName: string;
+  portName: string;
+  portCode: string;
   country: {
     id: number;
     countryName: string;
@@ -12,6 +13,10 @@ export type CityResponse = {
     id: number;
     provinceName: string;
     provinceCode: string;
+  };
+  city: {
+    id: number;
+    cityName: string;
   };
   createdBy: CreatedByResponse;
   createdAt: string;

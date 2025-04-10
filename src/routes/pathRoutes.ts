@@ -8,4 +8,5 @@ export class PathRoutes {
   static city = "/city";
   static category = "/category";
   static boat = "/boat";
+  static port = "/port";
 }

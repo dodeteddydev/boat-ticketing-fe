@@ -92,7 +92,7 @@ export const CityPage = () => {
       { idCity: actionDialog.id! },
       {
         onSuccess: (response) => {
-          if (data?.data.length === 1)
+          if (data?.data.length === 1 && data.paging.totalPage !== 1)
             setParams({ page: data.paging.currentPage - 1 });
 
           closeDialog();

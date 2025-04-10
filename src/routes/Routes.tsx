@@ -1,8 +1,9 @@
 import { ReactNode, useEffect } from "react";
-import { Navigate, Route, Routes as Router } from "react-router";
+import { Navigate, Route, Routes as Router, useNavigate } from "react-router";
 import pageNotFound from "../assets/page-not-found.png";
 import processing from "../assets/processing.png";
 import { BaseLayout } from "../components/BaseLayout";
+import { Button } from "../components/global/Button";
 import { useGlobalContext } from "../context/useGlobalContext";
 import { LoginPage } from "../features/login/pages/LoginPage";
 import { RegisterPage } from "../features/register/pages/RegisterPage";
@@ -13,6 +14,7 @@ import { PathRoutes } from "./pathRoutes";
 
 export const Routes = () => {
   const { userStatus, setProfile } = useGlobalContext();
+  const navigate = useNavigate();
   const protectedRoutes = PageRoutes.filter(
     (route) => route.routeType === "protected"
   );
@@ -41,6 +43,11 @@ export const Routes = () => {
           <div className="h-screen flex flex-col items-center justify-center">
             <img className="h-80 w-80" src={pageNotFound} alt="pageNotFound" />
             <p className="text-3xl font-semibold">Page Not Found</p>
+            <Button
+              className="w-1/5 mt-3"
+              text="Back to Main Page"
+              onClick={() => navigate(PathRoutes.dashboard, { replace: true })}
+            />
           </div>
         }
       />

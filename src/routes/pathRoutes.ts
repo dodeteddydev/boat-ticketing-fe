@@ -7,4 +7,5 @@ export class PathRoutes {
   static province = "/province";
   static city = "/city";
   static category = "/category";
+  static boat = "/boat";
 }

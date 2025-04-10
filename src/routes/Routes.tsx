@@ -44,7 +44,7 @@ export const Routes = () => {
             <img className="h-80 w-80" src={pageNotFound} alt="pageNotFound" />
             <p className="text-3xl font-semibold">Page Not Found</p>
             <Button
-              className="w-1/5 mt-3"
+              className="w-1/4 mt-3"
               text="Back to Main Page"
               onClick={() => navigate(PathRoutes.dashboard, { replace: true })}
             />

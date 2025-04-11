@@ -65,6 +65,7 @@ export const PortForm = ({
               onChange={(value) => {
                 field.onChange(Number(value?.value));
                 resetField("provinceId");
+                resetField("cityId");
               }}
               error={errors.countryId?.message}
             />

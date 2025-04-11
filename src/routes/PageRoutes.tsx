@@ -1,6 +1,7 @@
 import {
   Anchor,
   Building,
+  Calendar,
   Globe,
   LayoutDashboard,
   Map,
@@ -16,11 +17,12 @@ import { CityPage } from "../features/city/pages/CityPage";
 import { CountryPage } from "../features/country/pages/CountryPage";
 import { DashboardPage } from "../features/dashboard/pages/DashboardPage";
 import { LoginPage } from "../features/login/pages/LoginPage";
+import { PortPage } from "../features/port/pages/PortPage";
 import { ProvincePage } from "../features/province/pages/ProvincePage";
 import { RegisterPage } from "../features/register/pages/RegisterPage";
+import { SchedulePage } from "../features/schedule/pages/SchedulePage";
 import { UserPage } from "../features/user/pages/UserPage";
 import { PathRoutes } from "./pathRoutes";
-import { PortPage } from "../features/port/pages/PortPage";
 
 type PageRoutesType = {
   path: string;
@@ -93,7 +95,7 @@ export const PageRoutes: PageRoutesType[] = [
   {
     path: PathRoutes.boat,
     menu: "Boat",
-    accessed: [Role.superadmin],
+    accessed: [Role.superadmin, Role.boatOwner],
     icon: <Ship size={20} />,
     element: <BoatPage />,
     routeType: "protected",
@@ -104,6 +106,14 @@ export const PageRoutes: PageRoutesType[] = [
     accessed: [Role.superadmin],
     icon: <MapPin size={20} />,
     element: <PortPage />,
+    routeType: "protected",
+  },
+  {
+    path: PathRoutes.schedule,
+    menu: "Schedule",
+    accessed: [Role.superadmin, Role.boatOwner],
+    icon: <Calendar size={20} />,
+    element: <SchedulePage />,
     routeType: "protected",
   },
 ];

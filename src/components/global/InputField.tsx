@@ -29,7 +29,7 @@ export const InputField = ({
       <div className="relative w-full">
         <input
           {...props}
-          type={isPasswordField && !showPassword ? "password" : ""}
+          type={isPasswordField && !showPassword ? "password" : props.type}
           id={label?.toLowerCase()}
           className={`border h-10 px-2 rounded-lg w-full ${
             error

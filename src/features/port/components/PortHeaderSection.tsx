@@ -62,7 +62,7 @@ export const PortHeaderSection = ({
           onChange={(data) => onChangeCity(data?.id)}
         />
         <FilterX
-          className="cursor-pointer hover:opaPort-60"
+          className="cursor-pointer hover:opacity-60"
           onClick={onClear}
         />
       </div>

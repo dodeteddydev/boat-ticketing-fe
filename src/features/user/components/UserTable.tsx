@@ -14,6 +14,7 @@ import { useActiveUser } from "../hooks/useActiveUser";
 import { UserResponse } from "../types/userResponse";
 import { Role } from "../../../enums/accessed";
 import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
+import { useGlobalContext } from "../../../context/useGlobalContext";
 
 type UserTableProps = {
   isLoading?: boolean;
@@ -34,6 +35,7 @@ export const UserTable = ({
   onClickUpdate,
   onClickDelete,
 }: UserTableProps) => {
+  const { profile } = useGlobalContext();
   const dataList: UserResponse[] = data?.data ?? [];
   const dataPaging: Paging = data?.paging ?? {
     currentPage: 1,
@@ -51,6 +53,7 @@ export const UserTable = ({
           <Th>Username</Th>
           <Th>Email</Th>
           <Th>Role</Th>
+          {profile?.role === "superadmin" && <Th>Status</Th>}
           <Th className="text-center">Action</Th>
         </THead>
         <TBody>
@@ -85,6 +88,7 @@ export const UserTable = ({
                   <Td>{value.username}</Td>
                   <Td>{value.email}</Td>
                   <Td>{value.role}</Td>
+                  {profile?.role === "superadmin" && <Td>{value.status}</Td>}
                   <Td className="flex flex-row justify-center items-center gap-2">
                     {value.role !== Role.superadmin && (
                       <>

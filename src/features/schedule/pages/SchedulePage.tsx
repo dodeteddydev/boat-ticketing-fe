@@ -24,6 +24,9 @@ export const SchedulePage = () => {
   const { data, isLoading, isError, error, refetch } = useGetSchedule(true, {
     page: params.page,
     size: params.size,
+    schedule: params.schedule
+      ? new Date(params.schedule).toISOString()
+      : undefined,
     boatId: params.boatId,
     arrivalId: params.arrivalId,
     departureId: params.departureId,
@@ -36,6 +39,7 @@ export const SchedulePage = () => {
     setParams({
       page: 1,
       size: 10,
+      schedule: undefined,
       boatId: undefined,
       arrivalId: undefined,
       departureId: undefined,
@@ -108,10 +112,15 @@ export const SchedulePage = () => {
       <h1 className="font-semibold text-2xl">Schedule</h1>
 
       <ScheduleHeaderSection
-        // searchValue={params.search}
-        // onChangeSearch={(e) => setParams({ search: e.target.value, page: 1 })}
-        countryValue={params.boatId}
-        onChangeCountry={(value) =>
+        dateValue={params.schedule}
+        onChangeDate={(e) =>
+          setParams({
+            schedule: e.target.value,
+            page: 1,
+          })
+        }
+        boatValue={params.boatId}
+        onChangeBoat={(value) =>
           setParams({
             boatId: value,
             page: 1,
@@ -119,12 +128,14 @@ export const SchedulePage = () => {
             departureId: undefined,
           })
         }
-        provinceValue={params.arrivalId}
-        onChangeProvince={(value) =>
+        arrivalValue={params.arrivalId}
+        onChangeArrival={(value) =>
           setParams({ arrivalId: value, page: 1, departureId: undefined })
         }
-        cityValue={params.departureId}
-        onChangeCity={(value) => setParams({ departureId: value, page: 1 })}
+        departureValue={params.departureId}
+        onChangeDeparture={(value) =>
+          setParams({ departureId: value, page: 1 })
+        }
         onClear={setDefaultParams}
         onCreate={() => openDialog("create")}
       />

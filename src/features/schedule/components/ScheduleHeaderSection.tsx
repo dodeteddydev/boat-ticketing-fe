@@ -1,68 +1,65 @@
-// import { ChangeEvent } from "react";
-// import { InputField } from "../../../components/global/InputField";
-import { Button } from "../../../components/global/Button";
-import { CountryDropdown } from "../../country/components/CountryDropdown";
 import { FilterX } from "lucide-react";
-import { ProvinceDropdown } from "../../province/components/ProvinceDropdown";
-import { CityDropdown } from "../../city/components/CityDropdown";
+import { ChangeEvent } from "react";
+import { Button } from "../../../components/global/Button";
+import { InputField } from "../../../components/global/InputField";
+import { BoatDropdown } from "../../boat/components/BoatDropdown";
+import { PortDropdown } from "../../port/components/PortDropdown";
 
 type ScheduleHeaderSectionProps = {
-  // searchValue?: string;
-  // onChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void;
-  countryValue?: number;
-  onChangeCountry: (value?: number) => void;
-  provinceValue?: number;
-  onChangeProvince: (value?: number) => void;
-  cityValue?: number;
-  onChangeCity: (value?: number) => void;
+  dateValue?: string;
+  onChangeDate: (e: ChangeEvent<HTMLInputElement>) => void;
+  boatValue?: number;
+  onChangeBoat: (value?: number) => void;
+  arrivalValue?: number;
+  onChangeArrival: (value?: number) => void;
+  departureValue?: number;
+  onChangeDeparture: (value?: number) => void;
   onClear: () => void;
   onCreate: () => void;
 };
 
 export const ScheduleHeaderSection = ({
-  // searchValue = "",
-  // onChangeSearch,
-  countryValue,
-  onChangeCountry,
-  provinceValue,
-  onChangeProvince,
-  cityValue,
-  onChangeCity,
+  dateValue = "",
+  onChangeDate,
+  boatValue,
+  onChangeBoat,
+  arrivalValue,
+  onChangeArrival,
+  departureValue,
+  onChangeDeparture,
   onClear,
   onCreate,
 }: ScheduleHeaderSectionProps) => {
   return (
     <section className="flex flex-col sm:flex-row sm:justify-between mt-4 max-sm:gap-3">
       <div className="grid sm:grid-cols-2 xl:grid-cols-4 items-center gap-3">
-        {/* <InputField
+        <InputField
           className="sm:w-52"
-          placeholder="Search..."
-          value={searchValue}
-          onChange={onChangeSearch}
-        /> */}
-        <CountryDropdown
-          className="sm:w-52"
-          selectedValue={countryValue}
-          onChange={(data) => onChangeCountry(data?.id)}
+          type="datetime-local"
+          value={dateValue}
+          onChange={onChangeDate}
         />
-        <ProvinceDropdown
-          initalFetch={Boolean(countryValue)}
-          disabled={!countryValue}
-          params={{ countryId: countryValue }}
+        <BoatDropdown
           className="sm:w-52"
-          selectedValue={provinceValue}
-          onChange={(data) => onChangeProvince(data?.id)}
+          selectedValue={boatValue}
+          onChange={(data) => onChangeBoat(data?.id)}
         />
-        <CityDropdown
-          initalFetch={Boolean(countryValue && provinceValue)}
-          disabled={!countryValue || !provinceValue}
-          params={{ countryId: countryValue, provinceId: provinceValue }}
+        <PortDropdown
           className="sm:w-52"
-          selectedValue={cityValue}
-          onChange={(data) => onChangeCity(data?.id)}
+          placeholder="Select Arrival"
+          selectedValue={arrivalValue}
+          onChange={(data) => onChangeArrival(data?.id)}
+        />
+        <PortDropdown
+          initalFetch={Boolean(arrivalValue)}
+          disabled={!arrivalValue}
+          className="sm:w-52"
+          placeholder="Select Departure"
+          selectedValue={departureValue}
+          onChange={(data) => onChangeDeparture(data?.id)}
         />
         <FilterX
-          className="cursor-pointer hover:opaSchedule-60"
+          className="cursor-pointer hover:opacity-60"
           onClick={onClear}
         />
       </div>

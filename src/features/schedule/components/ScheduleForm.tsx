@@ -6,6 +6,9 @@ import { Action } from "../../../types/action";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
 import { BoatDropdown } from "../../boat/components/BoatDropdown";
 import { Schedule, scheduleSchema } from "../schemas/scheduleSchema";
+import { PortDropdown } from "../../port/components/PortDropdown";
+import { formatDateForField } from "../../../utilities/formatDate";
+import { useGlobalContext } from "../../../context/useGlobalContext";
 
 type ScheduleFormProps = {
   action: Action;
@@ -22,6 +25,8 @@ export const ScheduleForm = ({
   value,
   onSubmit,
 }: ScheduleFormProps) => {
+  const { profile } = useGlobalContext();
+
   const {
     register,
     control,
@@ -31,7 +36,12 @@ export const ScheduleForm = ({
     resetField,
   } = useForm<Schedule>({
     resolver: zodResolver(scheduleSchema),
-    defaultValues: value,
+    defaultValues: {
+      ...value,
+      schedule: value?.schedule
+        ? formatDateForField(value?.schedule)
+        : undefined,
+    },
   });
 
   return (
@@ -46,7 +56,7 @@ export const ScheduleForm = ({
           error={errors.schedule?.message}
         />
         <InputField
-          {...register("seat")}
+          {...register("seat", { valueAsNumber: true })}
           disabled={action === "detail"}
           placeholder="Enter Seat"
           label="Seat"
@@ -54,21 +64,23 @@ export const ScheduleForm = ({
           error={errors.seat?.message}
         />
         <InputField
-          {...register("price")}
+          {...register("price", { valueAsNumber: true })}
           disabled={action === "detail"}
           placeholder="Enter Price"
           label="Price"
           type="number"
           error={errors.price?.message}
         />
-        <InputField
-          {...register("markupPrice")}
-          disabled={action === "detail"}
-          placeholder="Enter Markup Price"
-          label="Markup Price"
-          type="number"
-          error={errors.markupPrice?.message}
-        />
+        {profile?.role === "superadmin" && (
+          <InputField
+            {...register("markupPrice", { valueAsNumber: true })}
+            disabled={action === "detail"}
+            placeholder="Enter Markup Price"
+            label="Markup Price"
+            type="number"
+            error={errors.markupPrice?.message}
+          />
+        )}
         <Controller
           name="boatId"
           control={control}
@@ -87,7 +99,7 @@ export const ScheduleForm = ({
           name="arrivalId"
           control={control}
           render={({ field }) => (
-            <BoatDropdown
+            <PortDropdown
               disabled={action === "detail"}
               placeholder="Select Arrival"
               label="Arrival"
@@ -104,11 +116,11 @@ export const ScheduleForm = ({
           name="departureId"
           control={control}
           render={({ field }) => (
-            <BoatDropdown
+            <PortDropdown
               initalFetch={Boolean(watch("arrivalId"))}
               disabled={action === "detail" || !watch("arrivalId")}
               // params={{ arrivalId: watch("arrivalId") }}
-              placeholder="Select Province"
+              placeholder="Select Departure"
               label="Province"
               selectedValue={field.value}
               onChange={(value) => field.onChange(Number(value?.value))}

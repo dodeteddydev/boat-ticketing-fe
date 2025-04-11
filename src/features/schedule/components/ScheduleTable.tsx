@@ -13,6 +13,8 @@ import {
 } from "../../../types/successListResponse";
 import { useActiveSchedule } from "../hooks/useActiveSchedule";
 import { ScheduleResponse } from "../types/scheduleResponse";
+import { formatDateForTable } from "../../../utilities/formatDate";
+import { useGlobalContext } from "../../../context/useGlobalContext";
 
 type ScheduleTableProps = {
   isLoading?: boolean;
@@ -33,6 +35,7 @@ export const ScheduleTable = ({
   onClickUpdate,
   onClickDelete,
 }: ScheduleTableProps) => {
+  const { profile } = useGlobalContext();
   const dataList: ScheduleResponse[] = data?.data ?? [];
   const dataPaging: Paging = data?.paging ?? {
     currentPage: 1,
@@ -82,7 +85,7 @@ export const ScheduleTable = ({
                   <Td>
                     {index + 1 + (dataPaging.currentPage - 1) * dataPaging.size}
                   </Td>
-                  <Td>{value.schedule}</Td>
+                  <Td>{formatDateForTable(value.schedule)}</Td>
                   <Td>{value.seat}</Td>
                   <Td>
                     {value.boat.boatName} - {value.boat.boatCode}
@@ -96,7 +99,12 @@ export const ScheduleTable = ({
                   <Td>
                     <div>
                       <p>{value.price}</p>
-                      <p>{value.markupPrice}</p>
+
+                      {profile?.role === "superadmin" && (
+                        <p>
+                          Markup Price : <span>{value.markupPrice}</span>
+                        </p>
+                      )}
                     </div>
                   </Td>
                   <Td className="flex flex-row justify-center items-center gap-2">

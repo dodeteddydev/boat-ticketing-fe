@@ -3,16 +3,17 @@ import { ActiveRequest } from "../../../types/activeRequest";
 import { ListParams } from "../../../types/listParams";
 import { SuccessListResponse } from "../../../types/successListResponse";
 import { SuccessResponse } from "../../../types/successResponse";
+import { UserRequest } from "../types/userRequest";
 import { UserResponse } from "../types/userResponse";
 
 export class UserService {
-  static async create(request: UserService) {
+  static async create(request: UserRequest) {
     return axiosInstance
       .post<SuccessResponse<UserResponse>>("/user", request)
       .then((response) => response.data);
   }
 
-  static async update(id: number, request: UserService) {
+  static async update(id: number, request: UserRequest) {
     return axiosInstance
       .put<SuccessResponse<UserResponse>>(`/user/${id}`, request)
       .then((response) => response.data);

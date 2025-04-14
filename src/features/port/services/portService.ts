@@ -3,16 +3,17 @@ import { ActiveRequest } from "../../../types/activeRequest";
 import { ListParams } from "../../../types/listParams";
 import { SuccessListResponse } from "../../../types/successListResponse";
 import { SuccessResponse } from "../../../types/successResponse";
+import { PortRequest } from "../types/portRequest";
 import { PortResponse } from "../types/portResponse";
 
 export class PortService {
-  static async create(request: PortService) {
+  static async create(request: PortRequest) {
     return axiosInstance
       .post<SuccessResponse<PortResponse>>("/port", request)
       .then((response) => response.data);
   }
 
-  static async update(id: number, request: PortService) {
+  static async update(id: number, request: PortRequest) {
     return axiosInstance
       .put<SuccessResponse<PortResponse>>(`/port/${id}`, request)
       .then((response) => response.data);

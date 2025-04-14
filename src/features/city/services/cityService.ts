@@ -3,16 +3,17 @@ import { ActiveRequest } from "../../../types/activeRequest";
 import { ListParams } from "../../../types/listParams";
 import { SuccessListResponse } from "../../../types/successListResponse";
 import { SuccessResponse } from "../../../types/successResponse";
+import { CityRequest } from "../types/cityRequest";
 import { CityResponse } from "../types/cityResponse";
 
 export class CityService {
-  static async create(request: CityService) {
+  static async create(request: CityRequest) {
     return axiosInstance
       .post<SuccessResponse<CityResponse>>("/city", request)
       .then((response) => response.data);
   }
 
-  static async update(id: number, request: CityService) {
+  static async update(id: number, request: CityRequest) {
     return axiosInstance
       .put<SuccessResponse<CityResponse>>(`/city/${id}`, request)
       .then((response) => response.data);

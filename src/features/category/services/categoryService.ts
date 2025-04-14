@@ -3,16 +3,17 @@ import { ActiveRequest } from "../../../types/activeRequest";
 import { ListParams } from "../../../types/listParams";
 import { SuccessListResponse } from "../../../types/successListResponse";
 import { SuccessResponse } from "../../../types/successResponse";
+import { CategoryRequest } from "../types/categoryRequest";
 import { CategoryResponse } from "../types/categoryResponse";
 
 export class CategoryService {
-  static async create(request: CategoryService) {
+  static async create(request: CategoryRequest) {
     return axiosInstance
       .post<SuccessResponse<CategoryResponse>>("/category", request)
       .then((response) => response.data);
   }
 
-  static async update(id: number, request: CategoryService) {
+  static async update(id: number, request: CategoryRequest) {
     return axiosInstance
       .put<SuccessResponse<CategoryResponse>>(`/category/${id}`, request)
       .then((response) => response.data);

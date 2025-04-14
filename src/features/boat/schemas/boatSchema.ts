@@ -10,6 +10,15 @@ export const boatSchema = z.object({
   categoryId: z
     .number({ required_error: "Category is required" })
     .min(1, "Category is required"),
+  image: z
+    .any()
+    .optional()
+    .transform((fileList) =>
+      fileList instanceof FileList ? fileList[0] : fileList
+    )
+    .refine((file) => !file || file instanceof File, {
+      message: "Invalid file format",
+    }),
 });
 
 export type Boat = z.infer<typeof boatSchema>;

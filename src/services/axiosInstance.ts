@@ -7,9 +7,6 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const axiosInstance = axios.create({
   baseURL: baseUrl,
-  headers: {
-    "Content-Type": "application/json",
-  },
   withCredentials: true,
 });
 
@@ -17,6 +14,10 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = LocalStorageHelpers.getAccessToken();
     if (token) {
+      if (!(config.data instanceof FormData)) {
+        config.headers["Content-Type"] = "application/json";
+      }
+
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

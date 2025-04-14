@@ -9,6 +9,7 @@ export type BoatResponse = {
     categoryName: string;
     categoryCode: string;
   };
+  image: string | null;
   createdBy: CreatedByResponse;
   createdAt: string;
   updatedAt: string;

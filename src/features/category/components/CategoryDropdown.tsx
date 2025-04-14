@@ -41,6 +41,8 @@ export const CategoryDropdown = ({
           ? "Loading..."
           : isError
           ? `${error.status} ${error.response?.data.message}`
+          : props.placeholder
+          ? props.placeholder
           : "Select Category"
       }
       value={

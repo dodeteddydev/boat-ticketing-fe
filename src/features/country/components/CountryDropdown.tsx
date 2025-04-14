@@ -41,6 +41,8 @@ export const CountryDropdown = ({
           ? "Loading..."
           : isError
           ? `${error.status} ${error.response?.data.message}`
+          : props.placeholder
+          ? props.placeholder
           : "Select Country"
       }
       value={

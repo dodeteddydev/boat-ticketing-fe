@@ -45,6 +45,8 @@ export const BoatDropdown = ({
           ? "Loading..."
           : isError
           ? `${error.status} ${error.response?.data.message}`
+          : props.placeholder
+          ? props.placeholder
           : "Select Boat"
       }
       value={

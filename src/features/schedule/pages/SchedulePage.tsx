@@ -129,12 +129,10 @@ export const SchedulePage = () => {
           })
         }
         arrivalValue={params.arrivalId}
-        onChangeArrival={(value) =>
-          setParams({ arrivalId: value, page: 1, departureId: undefined })
-        }
+        onChangeArrival={(value) => setParams({ arrivalId: value, page: 1 })}
         departureValue={params.departureId}
         onChangeDeparture={(value) =>
-          setParams({ departureId: value, page: 1 })
+          setParams({ departureId: value, page: 1, arrivalId: undefined })
         }
         onClear={setDefaultParams}
         onCreate={() => openDialog("create")}

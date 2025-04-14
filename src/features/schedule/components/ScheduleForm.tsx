@@ -44,6 +44,8 @@ export const ScheduleForm = ({
     },
   });
 
+  console.log(watch());
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="p-4 border-y flex flex-col gap-4">
@@ -96,32 +98,32 @@ export const ScheduleForm = ({
           )}
         />
         <Controller
-          name="arrivalId"
-          control={control}
-          render={({ field }) => (
-            <PortDropdown
-              disabled={action === "detail"}
-              placeholder="Select Arrival"
-              label="Arrival"
-              selectedValue={field.value}
-              onChange={(value) => {
-                field.onChange(Number(value?.value));
-                resetField("departureId");
-              }}
-              error={errors.arrivalId?.message}
-            />
-          )}
-        />
-        <Controller
           name="departureId"
           control={control}
           render={({ field }) => (
             <PortDropdown
-              initalFetch={Boolean(watch("arrivalId"))}
-              disabled={action === "detail" || !watch("arrivalId")}
-              // params={{ arrivalId: watch("arrivalId") }}
+              disabled={action === "detail"}
               placeholder="Select Departure"
               label="Departure"
+              selectedValue={field.value}
+              onChange={(value) => {
+                field.onChange(Number(value?.value));
+                resetField("arrivalId");
+              }}
+              error={errors.departureId?.message}
+            />
+          )}
+        />
+        <Controller
+          name="arrivalId"
+          control={control}
+          render={({ field }) => (
+            <PortDropdown
+              initalFetch={Boolean(watch("departureId"))}
+              disabled={action === "detail" || !watch("departureId")}
+              // params={{ departureId: watch("departureId") }}
+              placeholder="Select Arrival"
+              label="Arrival"
               selectedValue={field.value}
               onChange={(value) => field.onChange(Number(value?.value))}
               error={errors.arrivalId?.message}

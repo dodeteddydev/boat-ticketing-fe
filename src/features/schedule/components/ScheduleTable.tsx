@@ -52,8 +52,8 @@ export const ScheduleTable = ({
           <Th>Schedule</Th>
           <Th>Seat</Th>
           <Th>Boat</Th>
-          <Th>Arrival</Th>
           <Th>Departure</Th>
+          <Th>Arrival</Th>
           <Th>Price</Th>
           <Th className="text-center">Action</Th>
         </THead>
@@ -91,10 +91,10 @@ export const ScheduleTable = ({
                     {value.boat.boatName} - {value.boat.boatCode}
                   </Td>
                   <Td>
-                    {value.arrival.portName} - {value.arrival.portCode}
+                    {value.departure.portName} - {value.departure.portCode}
                   </Td>
                   <Td>
-                    {value.departure.portName} - {value.departure.portCode}
+                    {value.arrival.portName} - {value.arrival.portCode}
                   </Td>
                   <Td>
                     <div>

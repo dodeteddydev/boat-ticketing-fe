@@ -46,17 +46,17 @@ export const ScheduleHeaderSection = ({
         />
         <PortDropdown
           className="sm:w-52"
-          placeholder="Select Arrival"
-          selectedValue={arrivalValue}
-          onChange={(data) => onChangeArrival(data?.id)}
-        />
-        <PortDropdown
-          initalFetch={Boolean(arrivalValue)}
-          disabled={!arrivalValue}
-          className="sm:w-52"
           placeholder="Select Departure"
           selectedValue={departureValue}
           onChange={(data) => onChangeDeparture(data?.id)}
+        />
+        <PortDropdown
+          initalFetch={Boolean(departureValue)}
+          disabled={!departureValue}
+          className="sm:w-52"
+          placeholder="Select Arrival"
+          selectedValue={arrivalValue}
+          onChange={(data) => onChangeArrival(data?.id)}
         />
         <FilterX
           className="cursor-pointer hover:opacity-60"

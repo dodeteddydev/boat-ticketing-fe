@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 export const scheduleSchema = z.object({
-  schedule: z.string({ required_error: "Schedule is required" }),
+  schedule: z
+    .string({ required_error: "Schedule is required" })
+    .min(1, "Schedule is required"),
   seat: z.preprocess(
     (val) =>
       val === "" || val === null || isNaN(Number(val))

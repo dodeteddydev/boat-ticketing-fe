@@ -2,6 +2,7 @@ import { useState } from "react";
 import notFound from "../../../assets/data-not-found.png";
 import error from "../../../assets/error.png";
 import processing from "../../../assets/processing.png";
+import yacht from "../../../assets/yacht.png";
 import { ActionButtonGroup } from "../../../components/global/ActionButtonGroup";
 import { Table, TBody, Td, Th, THead } from "../../../components/global/Table";
 import { Toggle } from "../../../components/global/Toggle";
@@ -13,6 +14,7 @@ import {
 import { useActiveBoat } from "../hooks/useActiveBoat";
 import { BoatResponse } from "../types/boatResponse";
 import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
+import { generateImageUrl } from "../../../utilities/generateImageUrl";
 
 type BoatTableProps = {
   isLoading?: boolean;
@@ -49,6 +51,7 @@ export const BoatTable = ({
           <Th>Boat</Th>
           <Th>Code</Th>
           <Th>Country</Th>
+          <Th>Image</Th>
           <Th className="text-center">Action</Th>
         </THead>
         <TBody>
@@ -84,6 +87,13 @@ export const BoatTable = ({
                   <Td>
                     {value.category.categoryName} -{" "}
                     {value.category.categoryCode}
+                  </Td>
+                  <Td>
+                    <img
+                      className="w-16 h-16 object-cover border rounded"
+                      src={generateImageUrl(value.image) ?? yacht}
+                      alt="BoatImage"
+                    />
                   </Td>
                   <Td className="flex flex-row justify-center items-center gap-2">
                     <ActionButtonGroup

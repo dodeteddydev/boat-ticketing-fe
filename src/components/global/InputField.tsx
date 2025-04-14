@@ -35,7 +35,7 @@ export const InputField = ({
             error
               ? "border-red-500 focus:outline-red-500"
               : "focus:outline-primary"
-          }`}
+          } ${props.type === "file" && "pt-1"}`}
         />
 
         {isPasswordField && (

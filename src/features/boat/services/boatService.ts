@@ -3,18 +3,33 @@ import { ActiveRequest } from "../../../types/activeRequest";
 import { SuccessListResponse } from "../../../types/successListResponse";
 import { SuccessResponse } from "../../../types/successResponse";
 import { BoatParams } from "../types/boatParams";
+import { BoatRequest } from "../types/boatRequest";
 import { BoatResponse } from "../types/boatResponse";
 
 export class BoatService {
-  static async create(request: BoatService) {
+  static async create(request: BoatRequest) {
+    const formData = new FormData();
+    formData.append("boatName", request.boatName);
+    formData.append("boatCode", request.boatCode);
+    formData.append("categoryId", request.categoryId.toString());
+    if (request.image) {
+      formData.append("image", request.image as File);
+    }
     return axiosInstance
-      .post<SuccessResponse<BoatResponse>>("/boat", request)
+      .post<SuccessResponse<BoatResponse>>("/boat", formData)
       .then((response) => response.data);
   }
 
-  static async update(id: number, request: BoatService) {
+  static async update(id: number, request: BoatRequest) {
+    const formData = new FormData();
+    formData.append("boatName", request.boatName);
+    formData.append("boatCode", request.boatCode);
+    formData.append("categoryId", request.categoryId.toString());
+    if (request.image) {
+      formData.append("image", request.image as File);
+    }
     return axiosInstance
-      .put<SuccessResponse<BoatResponse>>(`/boat/${id}`, request)
+      .put<SuccessResponse<BoatResponse>>(`/boat/${id}`, formData)
       .then((response) => response.data);
   }
 

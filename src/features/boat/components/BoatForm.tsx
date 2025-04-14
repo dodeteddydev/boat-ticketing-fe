@@ -2,10 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../../../components/global/Button";
 import { InputField } from "../../../components/global/InputField";
-import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
-import { Boat, boatSchema } from "../schemas/boatSchema";
 import { Action } from "../../../types/action";
+import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
 import { CategoryDropdown } from "../../category/components/CategoryDropdown";
+import { Boat, boatSchema } from "../schemas/boatSchema";
 
 type BoatFormProps = {
   action: Action;
@@ -62,6 +62,15 @@ export const BoatForm = ({
               error={errors.categoryId?.message}
             />
           )}
+        />
+        <InputField
+          {...register("image")}
+          disabled={action === "detail"}
+          type="file"
+          accept="image/jpeg, image/jpg, image/png"
+          placeholder="Enter Image"
+          label="Image"
+          error={errors.image?.message as string}
         />
       </div>
 

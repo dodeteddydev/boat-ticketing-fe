@@ -3,6 +3,7 @@ import notFound from "../../../assets/data-not-found.png";
 import error from "../../../assets/error.png";
 import processing from "../../../assets/processing.png";
 import { ActionButtonGroup } from "../../../components/global/ActionButtonGroup";
+import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
 import { Table, TBody, Td, Th, THead } from "../../../components/global/Table";
 import { Toggle } from "../../../components/global/Toggle";
 import { ActiveRequest } from "../../../types/activeRequest";
@@ -10,23 +11,22 @@ import {
   Paging,
   SuccessListResponse,
 } from "../../../types/successListResponse";
-import { useActiveUser } from "../hooks/useActiveUser";
-import { UserResponse } from "../types/userResponse";
-import { Role } from "../../../enums/accessed";
-import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
+import { useActiveSchedule } from "../hooks/useActiveSchedule";
+import { ScheduleResponse } from "../types/scheduleResponse";
+import { formatDateForTable } from "../../../utilities/formatDate";
 import { useGlobalContext } from "../../../context/useGlobalContext";
 
-type UserTableProps = {
+type ScheduleTableProps = {
   isLoading?: boolean;
   isError?: boolean;
   errorStatus?: number;
-  data: SuccessListResponse<UserResponse[]> | undefined;
-  onClickDetail?: (data: UserResponse) => void;
-  onClickUpdate?: (data: UserResponse & { id: number }) => void;
-  onClickDelete?: (data: UserResponse) => void;
+  data: SuccessListResponse<ScheduleResponse[]> | undefined;
+  onClickDetail?: (data: ScheduleResponse) => void;
+  onClickUpdate?: (data: ScheduleResponse & { id: number }) => void;
+  onClickDelete?: (data: ScheduleResponse) => void;
 };
 
-export const UserTable = ({
+export const ScheduleTable = ({
   data,
   isLoading,
   isError,
@@ -34,9 +34,9 @@ export const UserTable = ({
   onClickDetail,
   onClickUpdate,
   onClickDelete,
-}: UserTableProps) => {
+}: ScheduleTableProps) => {
   const { profile } = useGlobalContext();
-  const dataList: UserResponse[] = data?.data ?? [];
+  const dataList: ScheduleResponse[] = data?.data ?? [];
   const dataPaging: Paging = data?.paging ?? {
     currentPage: 1,
     totalPage: 1,
@@ -45,21 +45,22 @@ export const UserTable = ({
   const emptyData = dataList.length < 1;
 
   return (
-    <ScrollableTableWrapper>
+    <ScrollableTableWrapper maxHeight={"max-h-[380px]"}>
       <Table>
         <THead>
           <Th>No</Th>
-          <Th>Name</Th>
-          <Th>Username</Th>
-          <Th>Email</Th>
-          <Th>Role</Th>
-          {profile?.role === "superadmin" && <Th>Status</Th>}
+          <Th>Schedule</Th>
+          <Th>Seat</Th>
+          <Th>Boat</Th>
+          <Th>Arrival</Th>
+          <Th>Departure</Th>
+          <Th>Price</Th>
           <Th className="text-center">Action</Th>
         </THead>
         <TBody>
           {emptyData || isLoading || isError ? (
             <tr>
-              <Td colSpan={6} align="center" className="font-bold h-40">
+              <Td colSpan={8} align="center" className="font-bold h-40">
                 <img
                   className="h-32 w-h-32"
                   src={isLoading ? processing : isError ? error : notFound}
@@ -78,37 +79,50 @@ export const UserTable = ({
             <>
               {dataList.map((value, index) => (
                 <tr
-                  key={`${value.username}${index}`}
+                  key={`${value.schedule}${index}`}
                   className="border-b hover:bg-gray-50"
                 >
                   <Td>
                     {index + 1 + (dataPaging.currentPage - 1) * dataPaging.size}
                   </Td>
-                  <Td>{value.name}</Td>
-                  <Td>{value.username}</Td>
-                  <Td>{value.email}</Td>
-                  <Td>{value.role}</Td>
-                  {profile?.role === "superadmin" && <Td>{value.status}</Td>}
-                  <Td className="flex flex-row justify-center items-center gap-2">
-                    {value.role !== Role.superadmin && (
-                      <>
-                        <ActionButtonGroup
-                          onClickDetail={() =>
-                            onClickDetail && onClickDetail(value)
-                          }
-                          onClickUpdate={() =>
-                            onClickUpdate && onClickUpdate(value)
-                          }
-                          onClickDelete={() =>
-                            onClickDelete && onClickDelete(value)
-                          }
-                        />
+                  <Td>{formatDateForTable(value.schedule)}</Td>
+                  <Td>{value.seat}</Td>
+                  <Td>
+                    {value.boat.boatName} - {value.boat.boatCode}
+                  </Td>
+                  <Td>
+                    {value.arrival.portName} - {value.arrival.portCode}
+                  </Td>
+                  <Td>
+                    {value.departure.portName} - {value.departure.portCode}
+                  </Td>
+                  <Td>
+                    <div>
+                      <p>{value.price}</p>
 
-                        <ToggleUser
-                          value={{ id: value.id, active: value.active }}
-                        />
-                      </>
-                    )}
+                      {profile?.role === "superadmin" && (
+                        <p>
+                          Markup Price : <span>{value.markupPrice}</span>
+                        </p>
+                      )}
+                    </div>
+                  </Td>
+                  <Td className="flex flex-row justify-center items-center gap-2">
+                    <ActionButtonGroup
+                      onClickDetail={() =>
+                        onClickDetail && onClickDetail(value)
+                      }
+                      onClickUpdate={() =>
+                        onClickUpdate && onClickUpdate(value)
+                      }
+                      onClickDelete={() =>
+                        onClickDelete && onClickDelete(value)
+                      }
+                    />
+
+                    <ToggleSchedule
+                      value={{ id: value.id, active: value.active }}
+                    />
                   </Td>
                 </tr>
               ))}
@@ -120,9 +134,13 @@ export const UserTable = ({
   );
 };
 
-const ToggleUser = ({ value: { id, active } }: { value: ActiveRequest }) => {
+const ToggleSchedule = ({
+  value: { id, active },
+}: {
+  value: ActiveRequest;
+}) => {
   const [isActive, setIsActive] = useState<boolean>(active);
-  const updateActive = useActiveUser();
+  const updateActive = useActiveSchedule();
 
   const onClickActive = () => {
     const newActiveStatus = !isActive;

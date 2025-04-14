@@ -65,6 +65,7 @@ export const PortForm = ({
               onChange={(value) => {
                 field.onChange(Number(value?.value));
                 resetField("provinceId");
+                resetField("cityId");
               }}
               error={errors.countryId?.message}
             />
@@ -102,8 +103,8 @@ export const PortForm = ({
                 countryId: watch("countryId"),
                 provinceId: watch("provinceId"),
               }}
-              placeholder="Select Province"
-              label="Province"
+              placeholder="Select City"
+              label="City"
               selectedValue={field.value}
               onChange={(value) => field.onChange(Number(value?.value))}
               error={errors.cityId?.message}

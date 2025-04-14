@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../../../components/global/Button";
 import { InputField } from "../../../components/global/InputField";
 import { Action } from "../../../types/action";
 import { capitalizeFirstText } from "../../../utilities/capitalizeFirstText";
+import { generateImageUrl } from "../../../utilities/generateImageUrl";
 import { CategoryDropdown } from "../../category/components/CategoryDropdown";
 import { Boat, boatSchema } from "../schemas/boatSchema";
 
@@ -31,6 +33,14 @@ export const BoatForm = ({
     resolver: zodResolver(boatSchema),
     defaultValues: value,
   });
+
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (value?.image) {
+      setImagePreview(generateImageUrl(value.image as string) ?? null);
+    }
+  }, [value?.image]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -63,15 +73,33 @@ export const BoatForm = ({
             />
           )}
         />
-        <InputField
-          {...register("image")}
-          disabled={action === "detail"}
-          type="file"
-          accept="image/jpeg, image/jpg, image/png"
-          placeholder="Enter Image"
-          label="Image"
-          error={errors.image?.message as string}
-        />
+        {action !== "detail" && (
+          <InputField
+            {...register("image", {
+              onChange: (e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  setImagePreview(URL.createObjectURL(file));
+                }
+              },
+            })}
+            type="file"
+            accept="image/jpeg, image/jpg, image/png"
+            placeholder="Enter Image"
+            label="Image"
+            error={errors.image?.message as string}
+          />
+        )}
+
+        {imagePreview && (
+          <div className="flex justify-center">
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="w-96 h-80 object-cover border rounded-lg"
+            />
+          </div>
+        )}
       </div>
 
       {isLoading && (

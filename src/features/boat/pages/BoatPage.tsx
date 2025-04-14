@@ -126,6 +126,7 @@ export const BoatPage = () => {
             boatName: data.boatName,
             boatCode: data.boatCode,
             categoryId: data.category.id,
+            image: data.image,
           })
         }
         onClickUpdate={(data) =>
@@ -133,6 +134,7 @@ export const BoatPage = () => {
             boatName: data.boatName,
             boatCode: data.boatCode,
             categoryId: data.category.id,
+            image: data.image,
           })
         }
         onClickDelete={(data) =>
@@ -140,6 +142,7 @@ export const BoatPage = () => {
             boatName: data.boatName,
             boatCode: data.boatCode,
             categoryId: data.category.id,
+            image: data.image,
           })
         }
       />

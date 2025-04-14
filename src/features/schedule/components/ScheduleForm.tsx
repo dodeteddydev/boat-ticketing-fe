@@ -121,7 +121,7 @@ export const ScheduleForm = ({
               disabled={action === "detail" || !watch("arrivalId")}
               // params={{ arrivalId: watch("arrivalId") }}
               placeholder="Select Departure"
-              label="Province"
+              label="Departure"
               selectedValue={field.value}
               onChange={(value) => field.onChange(Number(value?.value))}
               error={errors.arrivalId?.message}

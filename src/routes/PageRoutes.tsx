@@ -24,6 +24,7 @@ import { RegisterPage } from "../features/register/pages/RegisterPage";
 import { SchedulePage } from "../features/schedule/pages/SchedulePage";
 import { UserPage } from "../features/user/pages/UserPage";
 import { PathRoutes } from "./pathRoutes";
+import { BookingPage } from "../features/booking/pages/BookingPage";
 
 type PageRoutesType = {
   path: string;
@@ -122,7 +123,7 @@ export const PageRoutes: PageRoutesType[] = [
     menu: "Booking",
     accessed: [Role.superadmin, Role.boatOwner, Role.boatAdmin],
     icon: <CalendarDays size={20} />,
-    element: <p>UNDER MAINTENANCE</p>,
+    element: <BookingPage />,
     routeType: "protected",
   },
 ];

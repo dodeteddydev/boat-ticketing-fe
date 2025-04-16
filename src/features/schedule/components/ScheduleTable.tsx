@@ -2,19 +2,21 @@ import { useState } from "react";
 import notFound from "../../../assets/data-not-found.png";
 import error from "../../../assets/error.png";
 import processing from "../../../assets/processing.png";
+import yacht from "../../../assets/yacht.png";
 import { ActionButtonGroup } from "../../../components/global/ActionButtonGroup";
 import { ScrollableTableWrapper } from "../../../components/global/ScrollableTableWraper";
 import { Table, TBody, Td, Th, THead } from "../../../components/global/Table";
 import { Toggle } from "../../../components/global/Toggle";
+import { useGlobalContext } from "../../../context/useGlobalContext";
 import { ActiveRequest } from "../../../types/activeRequest";
 import {
   Paging,
   SuccessListResponse,
 } from "../../../types/successListResponse";
+import { formatDateForTable } from "../../../utilities/formatDate";
+import { generateImageUrl } from "../../../utilities/generateImageUrl";
 import { useActiveSchedule } from "../hooks/useActiveSchedule";
 import { ScheduleResponse } from "../types/scheduleResponse";
-import { formatDateForTable } from "../../../utilities/formatDate";
-import { useGlobalContext } from "../../../context/useGlobalContext";
 
 type ScheduleTableProps = {
   isLoading?: boolean;
@@ -52,6 +54,7 @@ export const ScheduleTable = ({
           <Th>Schedule</Th>
           <Th>Seat</Th>
           <Th>Boat</Th>
+          <Th>Image</Th>
           <Th>Departure</Th>
           <Th>Arrival</Th>
           <Th>Price</Th>
@@ -89,6 +92,13 @@ export const ScheduleTable = ({
                   <Td>{value.seat}</Td>
                   <Td>
                     {value.boat.boatName} - {value.boat.boatCode}
+                  </Td>
+                  <Td>
+                    <img
+                      className="w-16 h-16 object-cover border rounded"
+                      src={generateImageUrl(value.boat.image) ?? yacht}
+                      alt="BoatImage"
+                    />
                   </Td>
                   <Td>
                     {value.departure.portName} - {value.departure.portCode}

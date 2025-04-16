@@ -35,7 +35,7 @@ export const ScheduleHeaderSection = ({
       <div className="grid sm:grid-cols-2 xl:grid-cols-4 items-center gap-3">
         <InputField
           className="sm:w-52"
-          type="datetime-local"
+          type="date"
           value={dateValue}
           onChange={onChangeDate}
         />

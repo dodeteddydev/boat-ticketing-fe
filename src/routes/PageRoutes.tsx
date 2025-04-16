@@ -2,6 +2,7 @@ import {
   Anchor,
   Building,
   Calendar,
+  CalendarDays,
   Globe,
   LayoutDashboard,
   Map,
@@ -114,6 +115,14 @@ export const PageRoutes: PageRoutesType[] = [
     accessed: [Role.superadmin, Role.boatOwner],
     icon: <Calendar size={20} />,
     element: <SchedulePage />,
+    routeType: "protected",
+  },
+  {
+    path: PathRoutes.booking,
+    menu: "Booking",
+    accessed: [Role.superadmin, Role.boatOwner, Role.boatAdmin],
+    icon: <CalendarDays size={20} />,
+    element: <p>UNDER MAINTENANCE</p>,
     routeType: "protected",
   },
 ];

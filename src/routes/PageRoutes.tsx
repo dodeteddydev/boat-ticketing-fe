@@ -121,7 +121,7 @@ export const PageRoutes: PageRoutesType[] = [
   {
     path: PathRoutes.booking,
     menu: "Booking",
-    accessed: [Role.superadmin, Role.boatOwner, Role.boatAdmin],
+    accessed: [Role.all],
     icon: <CalendarDays size={20} />,
     element: <BookingPage />,
     routeType: "protected",

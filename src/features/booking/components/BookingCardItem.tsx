@@ -6,9 +6,10 @@ import { formatDateForTable } from "../../../utilities/formatDate";
 
 type BookingCardItemProps = {
   data: ScheduleResponse;
+  onClick: () => void;
 };
 
-export const BookingCardItem = ({ data }: BookingCardItemProps) => {
+export const BookingCardItem = ({ data, onClick }: BookingCardItemProps) => {
   return (
     <div className="border shadow-lg rounded-lg p-4 my-2 flex flex-col lg:flex-row lg:justify-between gap-4 lg:gap-0">
       <div className="flex flex-row justify-evenly lg:justify-start">
@@ -51,7 +52,7 @@ export const BookingCardItem = ({ data }: BookingCardItemProps) => {
         <p className="mb-5 text-xl font-bold text-center lg:text-start">
           Rp. {data.price + data.markupPrice}
         </p>
-        <Button text="Book" />
+        <Button text="Book" onClick={onClick} />
       </div>
     </div>
   );

@@ -6,12 +6,14 @@ import { useParams } from "../../../hooks/useParams";
 import { useGetSchedule } from "../../schedule/hooks/useGetSchedule";
 import { ScheduleParams } from "../../schedule/types/scheduleParams";
 import { FilterSection } from "../components/FilterSection";
-import { BookingCardItem } from "./BookingCardItem";
+import { BookingCardItem } from "../components/BookingCardItem";
 import { ScrollablePaginationWrapper } from "../../../components/global/ScrollablePaginationWraper";
 import { PageSizeDropdown } from "../../../components/global/PageSizeDropdown";
 import { Pagination } from "../../../components/global/Pagination";
+import { useNavigate } from "react-router";
 
 export const BookingPage = () => {
+  const navigate = useNavigate();
   const [params, setParams] = useParams<ScheduleParams>();
 
   const { data, isLoading, isError, error } = useGetSchedule(true, {
@@ -89,7 +91,11 @@ export const BookingPage = () => {
       ) : (
         <div className="pt-4 overflow-scroll max-h-[330px] sm:max-h-[480px] lg:h-screen">
           {data?.data.map((value, index) => (
-            <BookingCardItem key={`${value.id}${index}`} data={value} />
+            <BookingCardItem
+              key={`${value.id}${index}`}
+              data={value}
+              onClick={() => navigate(`/booking/${value.id}`)}
+            />
           ))}
         </div>
       )}

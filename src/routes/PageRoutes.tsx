@@ -13,6 +13,8 @@ import {
 import { ReactNode } from "react";
 import { Role } from "../enums/accessed";
 import { BoatPage } from "../features/boat/pages/BoatPage";
+import { BookingPage } from "../features/booking/pages/BookingPage";
+import { CreateBookingPage } from "../features/booking/pages/CreateBookingPage";
 import { CategoryPage } from "../features/category/pages/CategoryPage";
 import { CityPage } from "../features/city/pages/CityPage";
 import { CountryPage } from "../features/country/pages/CountryPage";
@@ -120,9 +122,14 @@ export const PageRoutes: PageRoutesType[] = [
   {
     path: PathRoutes.booking,
     menu: "Booking",
-    accessed: [Role.superadmin, Role.boatOwner, Role.boatAdmin],
+    accessed: [Role.all],
     icon: <CalendarDays size={20} />,
-    element: <p>UNDER MAINTENANCE</p>,
+    element: <BookingPage />,
+    routeType: "protected",
+  },
+  {
+    path: PathRoutes.createBooking,
+    element: <CreateBookingPage />,
     routeType: "protected",
   },
 ];

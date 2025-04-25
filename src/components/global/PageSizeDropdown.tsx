@@ -27,7 +27,9 @@ export const PageSizeDropdown = ({
     <SelectField<DropdownOptions>
       {...props}
       menuPlacement="auto"
-      className="w-96 md:max-w-48"
+      menuPortalTarget={document.body}
+      menuPosition="fixed"
+      className={`w-96 md:max-w-48 ${props.className}`}
       options={dataSize}
       placeholder="Size"
     />

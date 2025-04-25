@@ -10,6 +10,7 @@ export type ScheduleResponse = {
     id: number;
     boatName: string;
     boatCode: string;
+    image: string | null;
   };
   arrival: {
     id: number;

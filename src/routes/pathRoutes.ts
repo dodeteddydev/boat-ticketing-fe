@@ -11,4 +11,5 @@ export class PathRoutes {
   static port = "/port";
   static schedule = "/schedule";
   static booking = "/booking";
+  static createBooking = "/booking/:id";
 }

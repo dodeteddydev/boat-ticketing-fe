@@ -44,8 +44,6 @@ export const ScheduleForm = ({
     },
   });
 
-  console.log(watch());
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="p-4 border-y flex flex-col gap-4">
